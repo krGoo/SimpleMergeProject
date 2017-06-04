@@ -29,27 +29,15 @@ public class Controller {
    
    public static void saveStringToModel(int num){
       Model.saveString(num);
-   }
+   }   
    
    public static void copyToLeft(viewview left, viewview right) {      	      
-	      findBox(linenum);
-	      compareText(left,right);
-	   } 
+	  findBox(0, linenum);
+	  compareText(left,right);
+   } 
    
    public static void copyToRight(viewview left, viewview right) {
-      
-      for(int i=linenum; i<Model.Lswap_Boolean.size(); i++) {
-      
-         if(Model.Lswap_Boolean.get(i-1).equals(false)) {
-         
-            Model.right_String.set(i-1, Model.left_String.get(i-1));
-            continue;
-         }
-         else
-            break;
-      }
-      
-      Model.Lswap_Boolean.clear();
+	  findBox(1, linenum);
       compareText(left,right);
    }
    
@@ -61,72 +49,14 @@ public class Controller {
       right.textPane.setText(left.textPane.getText());
    }
    
+   
    public static void compareText(viewview left, viewview right) {
 	   // Clean Boolean
 	  Model.left_Boolean.clear();
-	  Model.right_Boolean.clear();
+	  Model.right_Boolean.clear(); 
+      
+	  LCS_algorithm();
 	  
-      int rightSize = Model.getSize("right") + 1;
-      int leftSize = Model.getSize("left") + 1;
-      int lcs[][] = new int[leftSize][rightSize];      
-      
-      //initialize Boolean
-      for(int i=0; i<rightSize; i++) 
-         Model.right_Boolean.add(false);      
-      for(int i=0; i<leftSize; i++)
-         Model.left_Boolean.add(false);
-
-      // add "0" for easy LCS algorithm
-      Model.left_String.add(0,"0");
-      Model.right_String.add(0,"0");      
-      
-      // LCS algorithm with ignoring empty line
-      for(int i=1; i<leftSize; i++) {
-         
-         for(int j=1; j<rightSize; j++) {
-            
-            if(i == 0 || j == 0) {
-               lcs[i][j] = 0;
-               continue;
-            }
-            
-            if((!Model.getString("left",i).equals("") || !Model.getString("right",j).equals("")) 
-            		&& Model.getString("left",i).equals(Model.getString("right",j))) {
-               lcs[i][j] = lcs[i-1][j-1] + 1;
-            }
-            else {
-               if(lcs[i-1][j] > lcs[i][j-1])
-                  lcs[i][j] = lcs[i-1][j];
-               else
-                  lcs[i][j] = lcs[i][j-1];
-            }   
-         }
-      }      
-      
-      // backtracking for LCS
-      int i = leftSize - 1;
-      int j = rightSize - 1;      
-      while(lcs[i][j] != 0) {
-         
-         if(lcs[i][j] == lcs[i][j-1]) {
-            j--;
-         }
-         else if(lcs[i][j] == lcs[i-1][j]) {
-            i--;
-         }
-         else if(lcs[i][j] - 1 == lcs[i-1][j-1]) {
-        	Model.setBoolean("left", i, true);
-        	Model.setBoolean("right", j, true);         
-            i--;
-            j--;
-         }
-      }      
-      
-      // remove "0"
-      Model.right_String.remove(0);   Model.right_Boolean.remove(0);
-      Model.left_String.remove(0);   Model.left_Boolean.remove(0);
-      
-      
       // Lining with same string               
       for(int k=0; k<Model.getSize("right") && k<Model.getSize("left"); k++) {
          if(Model.getBoolean("left", k).equals(false) && Model.getBoolean("right", k).equals(true)) {
@@ -154,13 +84,10 @@ public class Controller {
       remakeText(left, right);            
       
       // Highlighting false line
-      Highlighting(left, right);      
-      
-      // Copy boolean
-      Model.Lswap_Boolean.addAll(Model.left_Boolean);
-      Model.Rswap_Boolean.addAll(Model.right_Boolean);
-            
+      Highlighting(left, right);       
    }   
+   
+   
    
    public static void setLineNum(int line){
 	   linenum=line;
@@ -168,6 +95,8 @@ public class Controller {
    public static void incereaselineNum(){
       linenum++;
    }
+   
+   
    
    public static void setSameLining() {
       while(Model.left_Boolean.size() > Model.right_Boolean.size()) {
@@ -180,30 +109,23 @@ public class Controller {
       }
    }
    
-   public static void findBox(int line){
-	      int pivot = line;
-	      int up = line;
-	      int down = line;
+   public static void findBox(int num, int line){
+	      int up = line - 1;
+	      int down = line - 1;
 	      
-	      while(true){
-	         
-	         if(Model.right_Boolean.get(up) == false && up>0)
-	            up--;
-	         else
-	            break;
-	      }
-	      while(true){
-	         
-	         if(Model.right_Boolean.get(down) == false && down< Model.getSize("left")-1)
-	            down++;
-	         else
-	            break;
-	      }
+	      while(Model.right_Boolean.get(up).equals(false) && up>0)	      						// find false up line  
+	          up--;
+	      while(Model.right_Boolean.get(down).equals(false) && down< Model.getSize("left")-1)	// find false down line         
+	          down++;
 	      
-	      for(int i=up+1; i<= down+1; i++){
-	         Model.left_String.set(i-1, Model.right_String.get(i-1));
+	      if(num == 0) {
+	    	  for(int i=up+1; i<= down+1; i++)
+	    		  Model.left_String.set(i-1, Model.right_String.get(i-1));	
 	      }
-	      
+	      else {
+	    	  for(int i=up+1; i<= down+1; i++)
+	    		  Model.right_String.set(i-1, Model.left_String.get(i-1));
+	      }
 	   }
    
    public static void remakeText(viewview left, viewview right) {
@@ -269,6 +191,69 @@ public class Controller {
 	      } catch (BadLocationException e) {
 	         e.printStackTrace();
 	      }
+   }
+   
+   
+   public static void LCS_algorithm() {
+	   int rightSize = Model.getSize("right") + 1;
+	      int leftSize = Model.getSize("left") + 1;
+	      int lcs[][] = new int[leftSize][rightSize];      
+	      
+	      //initialize Boolean
+	      for(int i=0; i<rightSize; i++) 
+	         Model.right_Boolean.add(false);      
+	      for(int i=0; i<leftSize; i++)
+	         Model.left_Boolean.add(false);
+
+	      // add "0" for easy LCS algorithm
+	      Model.left_String.add(0,"0");
+	      Model.right_String.add(0,"0");      
+	      
+	      // LCS algorithm with ignoring empty line
+	      for(int i=1; i<leftSize; i++) {
+	         
+	         for(int j=1; j<rightSize; j++) {
+	            
+	            if(i == 0 || j == 0) {
+	               lcs[i][j] = 0;
+	               continue;
+	            }
+	            
+	            if((!Model.getString("left",i).equals("") || !Model.getString("right",j).equals("")) 
+	            		&& Model.getString("left",i).equals(Model.getString("right",j))) {
+	               lcs[i][j] = lcs[i-1][j-1] + 1;
+	            }
+	            else {
+	               if(lcs[i-1][j] > lcs[i][j-1])
+	                  lcs[i][j] = lcs[i-1][j];
+	               else
+	                  lcs[i][j] = lcs[i][j-1];
+	            }   
+	         }
+	      }      
+	      
+	      // backtracking for LCS
+	      int i = leftSize - 1;
+	      int j = rightSize - 1;      
+	      while(lcs[i][j] != 0) {
+	         
+	         if(lcs[i][j] == lcs[i][j-1]) {
+	            j--;
+	         }
+	         else if(lcs[i][j] == lcs[i-1][j]) {
+	            i--;
+	         }
+	         else if(lcs[i][j] - 1 == lcs[i-1][j-1]) {
+	        	Model.setBoolean("left", i, true);
+	        	Model.setBoolean("right", j, true);         
+	            i--;
+	            j--;
+	         }
+	      }      
+	      
+	      // remove "0"
+	      Model.right_String.remove(0);   Model.right_Boolean.remove(0);
+	      Model.left_String.remove(0);   Model.left_Boolean.remove(0);
    }
    
 }

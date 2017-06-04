@@ -17,8 +17,6 @@ public class Model {
 	static ArrayList<String> right_String = new ArrayList<String>();
 	static ArrayList<Boolean> left_Boolean = new ArrayList<Boolean>();
 	static ArrayList<Boolean> right_Boolean = new ArrayList<Boolean>();
-	static ArrayList<Boolean> Lswap_Boolean = new ArrayList<Boolean>();
-	static ArrayList<Boolean> Rswap_Boolean = new ArrayList<Boolean>();
 	
 	public static void load(File ldfile, int num){
 	
@@ -81,7 +79,7 @@ public class Model {
 		catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-	}
+	}	
 	
 	public static Boolean getBoolean(String s, int num) {
 		if(s.equals("left"))

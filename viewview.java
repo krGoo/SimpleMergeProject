@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -22,8 +23,7 @@ abstract class viewview extends JPanel{
 	JButton loadbtn = new JButton("Load");
 	JScrollPane scrollPane= new JScrollPane();
 	JTextArea textPane = new JTextArea();
-
-	
+		
 	
 	public viewview() {
 		initialize();
