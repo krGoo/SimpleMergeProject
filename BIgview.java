@@ -110,6 +110,7 @@ public class BIgview {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					Controller.AllcopyToLeft(panel, panel2);
+			
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  e.getMessage());

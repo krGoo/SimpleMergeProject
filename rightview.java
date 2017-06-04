@@ -19,13 +19,13 @@ public class rightview extends viewview {
 		setLayout(null);		
 		
 	
-		loadbtn.addActionListener(new ActionListener() { //ºÒ·¯¿À±â
+		loadbtn.addActionListener(new ActionListener() { //ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JFileChooser fs = new JFileChooser(new File("c:\\"));
 			    fs.setDialogTitle("Open a File");
 			    fs.setFileFilter(new FileTypeFilter(".dat", "Data File"));
-			    fs.setFileFilter(new FileTypeFilter(".hwp", "ÇÑ±Û ÆÄÀÏ"));
+			    fs.setFileFilter(new FileTypeFilter(".hwp", "ï¿½Ñ±ï¿½ ï¿½ï¿½ï¿½ï¿½"));
 			    fs.setFileFilter(new FileTypeFilter(".txt", "Text File"));
 			    
 			    int result = fs.showOpenDialog(null);
@@ -33,9 +33,9 @@ public class rightview extends viewview {
 			     File file = fs.getSelectedFile();
 			     	
 			     try {
-			    	 Controller.loadFile(file, 1); //ÄÁÆ®·Ñ·¯ È£Ãâ
+			    	 Controller.loadFile(file, 1); //ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ È£ï¿½ï¿½
 			    	 Controller.saveStringToModel(1);
-			    	 showloadedFile(1);//¸ðµ¨¿¡¼­ µ¥ÀÌÅÍ get
+			    	 showloadedFile(1);//ï¿½ðµ¨¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ get
 			     }
 			     catch (Exception e) {
 			    	 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -48,7 +48,7 @@ public class rightview extends viewview {
 		
 		
 	
-		editbtn.addActionListener(new ActionListener() { //ÀúÀåÇÏ±â
+		editbtn.addActionListener(new ActionListener() { //ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			public void actionPerformed(ActionEvent arg0) {
 			if(textPane.isEditable() == false)
 			textPane.setEditable(true);
@@ -64,7 +64,7 @@ public class rightview extends viewview {
 		
 		
 	
-		savebtn.addActionListener(new ActionListener() { //ÀúÀåÇÏ±â
+		savebtn.addActionListener(new ActionListener() { //ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JFileChooser fs = new JFileChooser(new File("c:\\"));

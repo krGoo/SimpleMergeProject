@@ -43,10 +43,12 @@ public class Controller {
    
    public static void AllcopyToLeft(viewview left, viewview right) {
       left.textPane.setText(right.textPane.getText());
+      right.textPane.setText(left.textPane.getText());
    }
    
    public static void AllcopyToRight(viewview left, viewview right) {
       right.textPane.setText(left.textPane.getText());
+      left.textPane.setText(right.textPane.getText());
    }
    
    
