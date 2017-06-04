@@ -60,12 +60,12 @@ public class Controller {
       // Lining with same string               
       for(int k=0; k<Model.getSize("right") && k<Model.getSize("left"); k++) {
          if(Model.getBoolean("left", k).equals(false) && Model.getBoolean("right", k).equals(true)) {
-            Model.right_String.add(k,"");
-            Model.right_Boolean.add(k,false);
+            Model.addString("right", k, "");
+            Model.addBoolean("right", k, false);
          }
          else if(Model.getBoolean("left", k).equals(true) && Model.getBoolean("right", k).equals(false) ) {
-            Model.left_String.add(k,"");
-            Model.left_Boolean.add(k,false);
+            Model.addString("left", k, "");
+            Model.addBoolean("left", k, false);
          }            
       }      
             
@@ -75,8 +75,8 @@ public class Controller {
       // if both lines are empty, their booleans are true
       for(int k=0; k<Model.getSize("right"); k++) {
     	  if(Model.getString("left", k).equals(Model.getString("right", k))) {
-    		  Model.left_Boolean.set(k, true);
-    		  Model.right_Boolean.set(k, true);
+    		  Model.setBoolean("left", k, true);
+    		  Model.setBoolean("right", k, true);
     	  }
       }
       
@@ -93,19 +93,19 @@ public class Controller {
 	   linenum=line;
    }
    public static void incereaselineNum(){
-      linenum++;
+       linenum++;
    }
    
    
    
    public static void setSameLining() {
-      while(Model.left_Boolean.size() > Model.right_Boolean.size()) {
-         Model.right_String.add("");
-         Model.right_Boolean.add(false);
+      while(Model.getSize("left") > Model.getSize("right")) {
+    	  Model.addString("right","");
+    	  Model.addBoolean("right",false);
       }
-      while(Model.left_Boolean.size() < Model.right_Boolean.size()) {
-         Model.left_String.add("");
-         Model.left_Boolean.add(false);
+      while(Model.getSize("left") < Model.getSize("right")) {
+    	  Model.addString("left","");
+    	  Model.addBoolean("left",false);
       }
    }
    
@@ -113,18 +113,18 @@ public class Controller {
 	      int up = line - 1;
 	      int down = line - 1;
 	      
-	      while(Model.right_Boolean.get(up).equals(false) && up>0)	      						// find false up line  
+	      while(Model.getBoolean("right", up).equals(false) && up>0)	      						// find false up line  
 	          up--;
-	      while(Model.right_Boolean.get(down).equals(false) && down< Model.getSize("left")-1)	// find false down line         
+	      while(Model.getBoolean("left", down).equals(false) && down< Model.getSize("left")-1)	// find false down line         
 	          down++;
 	      
 	      if(num == 0) {
 	    	  for(int i=up+1; i<= down+1; i++)
-	    		  Model.left_String.set(i-1, Model.right_String.get(i-1));	
+	    		  Model.setString("left", i-1, Model.getString("right", i-1));
 	      }
 	      else {
 	    	  for(int i=up+1; i<= down+1; i++)
-	    		  Model.right_String.set(i-1, Model.left_String.get(i-1));
+	    		  Model.setString("right", i-1, Model.getString("left", i-1));
 	      }
 	   }
    
@@ -162,7 +162,7 @@ public class Controller {
 	         int n=0;
 	         int m=0;
 	         
-	         for(l=0; l<Model.left_Boolean.size(); l++) {
+	         for(l=0; l<Model.getSize("left"); l++) {
 	            int leftStart=left.textPane.getLineStartOffset(n);
 	            int leftEnd = left.textPane.getLineEndOffset(n);
 	            
@@ -175,7 +175,7 @@ public class Controller {
 	               
 	          }
 	         
-	         for(r=0; r<Model.right_Boolean.size(); r++) {
+	         for(r=0; r<Model.getSize("right"); r++) {
 	            
 	            int rightStart= right.textPane.getLineStartOffset(m);
 	            int rightEnd  = right.textPane.getLineEndOffset(m);
@@ -201,13 +201,13 @@ public class Controller {
 	      
 	      //initialize Boolean
 	      for(int i=0; i<rightSize; i++) 
-	         Model.right_Boolean.add(false);      
+	    	  Model.addBoolean("right", false);  
 	      for(int i=0; i<leftSize; i++)
-	         Model.left_Boolean.add(false);
+	    	  Model.addBoolean("left", false);  
 
 	      // add "0" for easy LCS algorithm
-	      Model.left_String.add(0,"0");
-	      Model.right_String.add(0,"0");      
+	      Model.addString("right", 0, "0"); 
+	      Model.addString("left", 0, "0");     
 	      
 	      // LCS algorithm with ignoring empty line
 	      for(int i=1; i<leftSize; i++) {

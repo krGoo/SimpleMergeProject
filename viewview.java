@@ -23,7 +23,9 @@ abstract class viewview extends JPanel{
 	JButton loadbtn = new JButton("Load");
 	JScrollPane scrollPane= new JScrollPane();
 	JTextArea textPane = new JTextArea();
-		
+
+	ArrayList<String> file_String = new ArrayList<String>();
+	ArrayList<Boolean> file_Boolean = new ArrayList<Boolean>();
 	
 	public viewview() {
 		initialize();

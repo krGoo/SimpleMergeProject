@@ -92,8 +92,7 @@ public class Model {
 		if(s.equals("left"))
 			return left_String.get(num);
 		else
-			return right_String.get(num);
-			
+			return right_String.get(num);			
 	}
 	
 	public static void setBoolean(String s, int num, Boolean bool) {
@@ -115,6 +114,34 @@ public class Model {
 			return left_String.size();
 		else
 			return right_String.size();
+	}
+	
+	public static void addString(String s, int num, String str) {
+		if(s.equals("left"))
+			left_String.add(num,  str);
+		else
+			right_String.add(num,  str);
+	}
+	
+	public static void addBoolean(String s, int num, Boolean bool) {
+		if(s.equals("left"))
+			left_Boolean.add(num,  bool);
+		else
+			right_Boolean.add(num,  bool);
+	}
+	
+	public static void addBoolean(String s, Boolean bool) {
+		if(s.equals("left"))
+			left_Boolean.add(bool);
+		else
+			right_Boolean.add(bool);
+	}
+	
+	public static void addString(String s, String str) {
+		if(s.equals("left"))
+			left_String.add(str);
+		else
+			right_String.add(str);
 	}
 
 }
