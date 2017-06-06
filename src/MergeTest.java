@@ -7,20 +7,17 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
-
-
 import java.awt.Button;
 import java.awt.event.*;
 
 
 public class MergeTest extends TestCase{
+	Model testModel;
+	Controller testController;
 	//ComponentTester guiTester = new ComponentTester();
 	protected void setUp(){
-		Model.file = new File[2];
-		Model.left_String = new ArrayList<String>();
-		Model.right_String = new ArrayList<String>();
-		Model.left_Boolean = new ArrayList<Boolean>();
-		Model.right_Boolean = new ArrayList<Boolean>();
+		testModel = new Model();
+		testController = new Controller();
 	}
 	protected void tearDown(){
 		
@@ -29,7 +26,7 @@ public class MergeTest extends TestCase{
 		FileTypeFilter testUnit = new FileTypeFilter(".txt","Text File");
 		assertEquals(testUnit.getDescription(), "Text File (*.txt)");
 		File fileTest;
-		fileTest = new File("D:\\1.txt");
+		fileTest = new File("C:\\1.txt");
 		assertTrue(testUnit.accept(fileTest));
 		fileTest = new File("");
 		assertFalse(testUnit.accept(fileTest));
@@ -40,34 +37,34 @@ public class MergeTest extends TestCase{
 		File fileTest_case1;
 		File fileTest_case2;
 		File saveFileTest;
-		fileTest_case1 = new File("D:\\1.txt");
-		fileTest_case2 = new File("D:\\2.txt");
-		saveFileTest = new File("D:\\3");
+		fileTest_case1 = new File("C:\\1.txt");
+		fileTest_case2 = new File("C:\\2.txt");
+		saveFileTest = new File("C:\\3");
 		
-		Model.load(fileTest_case1, 0);
-		Model.load(fileTest_case2, 1);
-		assertEquals(Model.getfile(0).getName(),"1.txt");
-		assertEquals(Model.getfile(1).getName(),"2.txt");
+		testModel.load(fileTest_case1, 0);
+		testModel.load(fileTest_case2, 1);
+		assertEquals(testModel.getfile(0).getName(),"1.txt");
+		assertEquals(testModel.getfile(1).getName(),"2.txt");
 		
 		
-		Model.saveString(0);
-		Model.saveString(1);
+		testModel.saveString(0);
+		testModel.saveString(1);
 		
 		for(int i = 1; i <= 7; i++){
-			assertEquals(Model.left_String.get(i-1), Integer.toString(i));
+			assertEquals(testModel.left_String.get(i-1), Integer.toString(i));
 		}
 		int sample[] = {2,1,3,8,4,9,5,7,6,8};
 		for(int i = 0; i < sample.length; i++){
-			assertEquals(Model.right_String.get(i), Integer.toString(sample[i]));
+			assertEquals(testModel.right_String.get(i), Integer.toString(sample[i]));
 		}
 		
-		assertEquals(Model.getString(0), "1\n2\n3\n4\n5\n6\n7\n");
-		assertEquals(Model.getString(1), "2\n1\n3\n8\n4\n9\n5\n7\n6\n8\n");
+		assertEquals(testModel.getString(0), "1\n2\n3\n4\n5\n6\n7\n");
+		assertEquals(testModel.getString(1), "2\n1\n3\n8\n4\n9\n5\n7\n6\n8\n");
 		
 		
 		try {
-			Model.save(saveFileTest, "abc", 0);
-			File testFile = new File("D:\\3.txt");
+			testModel.save(saveFileTest, "abc", 0);
+			File testFile = new File("C:\\3.txt");
 			assertTrue(testFile.exists());
 			BufferedReader br = new BufferedReader(new FileReader(testFile));
 			String testString = br.readLine();
@@ -77,68 +74,120 @@ public class MergeTest extends TestCase{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Controller.LCS_algorithm();
-		assertFalse(Model.getBoolean("left", 0));
-		assertTrue(Model.getBoolean("right", 0));
-		assertEquals(Model.getString("left",0), "1");
-		assertEquals(Model.getString("right",0), "2");
-		Model.setBoolean("left", 0, true);
-		Model.setBoolean("right", 0, false);
-		assertTrue(Model.getBoolean("left", 0));
-		assertFalse(Model.getBoolean("right", 0));
-		Model.setString("left", 0, "2");
-		Model.setString("right", 0, "1");
-		assertEquals(Model.getString("left",0), "2");
-		assertEquals(Model.getString("right",0), "1");
+		testController.LCS_algorithm(testModel);
+		assertFalse(testModel.getBoolean("left", 0));
+		assertTrue(testModel.getBoolean("right", 0));
+		assertEquals(testModel.getString("left",0), "1");
+		assertEquals(testModel.getString("right",0), "2");
+		testModel.setBoolean("left", 0, true);
+		testModel.setBoolean("right", 0, false);
+		assertTrue(testModel.getBoolean("left", 0));
+		assertFalse(testModel.getBoolean("right", 0));
+		testModel.setString("left", 0, "2");
+		testModel.setString("right", 0, "1");
+		assertEquals(testModel.getString("left",0), "2");
+		assertEquals(testModel.getString("right",0), "1");
 		
 	}
 	public void testController(){
 		File fileTest_case1;
 		File fileTest_case2;
-		fileTest_case1 = new File("D:\\1.txt");
-		fileTest_case2 = new File("D:\\2.txt");
-		Model.load(fileTest_case1, 0);
-		Model.load(fileTest_case2, 1);
+		fileTest_case1 = new File("C:\\1.txt");
+		fileTest_case2 = new File("C:\\2.txt");
+		testModel.load(fileTest_case1, 0);
+		testModel.load(fileTest_case2, 1);
+		testModel.saveString(0);
+		testModel.saveString(1);
 		
-		Controller.LCS_algorithm();
+		
+		testController.LCS_algorithm(testModel);
 		int[] leftSet = {0,1,1,1,1,0,1};
 		int[] rightSet = {1,0,1,0,1,0,1,1,0,0};
-		for(int i = 0; i < Model.left_Boolean.size(); i++){
+		for(int i = 0; i < testModel.left_Boolean.size(); i++){
 			if(leftSet[i] == 0)
-				assertFalse(Model.left_Boolean.get(i));
+				assertFalse(testModel.left_Boolean.get(i));
 			else
-				assertTrue(Model.left_Boolean.get(i));
+				assertTrue(testModel.left_Boolean.get(i));
 		}
-		for(int i = 0; i < Model.right_Boolean.size(); i++){
+		for(int i = 0; i < testModel.right_Boolean.size(); i++){
 			if(rightSet[i] == 0)
-				assertFalse(Model.right_Boolean.get(i));
+				assertFalse(testModel.right_Boolean.get(i));
 			else
-				assertTrue(Model.right_Boolean.get(i));
+				assertTrue(testModel.right_Boolean.get(i));
 		}
 		
-		LeftView leftTestView = new LeftView();
-		RightView rightTestView = new RightView();
-		Controller.remakeText(leftTestView, rightTestView);
+		leftview leftTestView = new leftview(testController, testModel);
+		rightview rightTestView = new rightview(testController, testModel);
+		testController.remakeText(testModel, leftTestView, rightTestView);
+		
 		
 		assertEquals("1\n2\n3\n4\n5\n6\n7\n",leftTestView.textPane.getText());
 		assertEquals("2\n1\n3\n8\n4\n9\n5\n7\n6\n8\n",rightTestView.textPane.getText());
 		
-		Controller.setSameLining();
+		testController.setSameLining(testModel);
+		testController.compareText(testModel, leftTestView, rightTestView);
 		
-		assertEquals(Model.getSize("left"), Model.getSize("right"));
+		assertEquals("1\n2\n\n3\n\n4\n\n5\n6\n7\n\n\n\n",leftTestView.textPane.getText());
+		assertEquals("\n2\n1\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
 		
-		assertEquals(1, Controller.linenum);
-		Controller.setLineNum(4);
-		assertEquals(4, Controller.linenum);
-		Controller.incereaselineNum();
-		assertEquals(5, Controller.linenum);
-		Controller.setLineNum(1);
-		assertEquals(1, Controller.linenum);
+		
+		assertEquals(testModel.getSize("left"), testModel.getSize("right"));
+		
+		assertEquals(1, testController.linenum);
+		testController.setLineNum(4);
+		assertEquals(4, testController.linenum);
+		testController.incereaselineNum();
+		assertEquals(5, testController.linenum);
+		
+		
+		testController.setLineNum(3);
+		assertEquals(3, testController.linenum);
+		testController.copyToRight(testModel, leftTestView, rightTestView);
+		assertEquals("1\n2\n\n3\n\n4\n\n5\n6\n7\n\n\n\n",leftTestView.textPane.getText());
+		assertEquals("\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
+		
+		testController.setLineNum(9);
+		assertEquals(9, testController.linenum);
+		testController.copyToLeft(testModel, leftTestView, rightTestView);
+		assertEquals("1\n2\n\n3\n\n4\n\n5\n\n7\n\n\n\n",leftTestView.textPane.getText());
+		assertEquals("\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
+		
+		testController.setLineNum(11);
+		assertEquals(11, testController.linenum);
+		testController.copyToLeft(testModel, leftTestView, rightTestView);
+		assertEquals("1\n2\n\n3\n\n4\n\n5\n\n7\n6\n8\n\n",leftTestView.textPane.getText());
+		assertEquals("\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
+		
+		testController.setLineNum(1);
+		assertEquals(1, testController.linenum);
+		testController.copyToRight(testModel, leftTestView, rightTestView);
+		assertEquals("1\n2\n\n3\n\n4\n\n5\n\n7\n6\n8\n\n",leftTestView.textPane.getText());
+		assertEquals("1\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
+		
+		testController.setLineNum(5);
+		assertEquals(5, testController.linenum);
+		testController.copyToLeft(testModel, leftTestView, rightTestView);
+		assertEquals("1\n2\n\n3\n8\n4\n\n5\n\n7\n6\n8\n\n",leftTestView.textPane.getText());
+		assertEquals("1\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
+		
+		testController.setLineNum(7);
+		assertEquals(7, testController.linenum);
+		testController.copyToLeft(testModel, leftTestView, rightTestView);
+		assertEquals("1\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",leftTestView.textPane.getText());
+		assertEquals("1\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 	}
 	public void testleftview(){
-		LeftView testview = new LeftView();
+		leftview testview = new leftview(testController, testModel);
 		assertEquals(testview.loadbtn.getText(), "Load");
 		assertEquals(testview.editbtn.getText(), "Edit");
 		assertEquals(testview.savebtn.getText(), "Save");
@@ -149,7 +198,7 @@ public class MergeTest extends TestCase{
 		
 	}
 	public void testrightview(){
-		RightView testview = new RightView();
+		rightview testview = new rightview(testController, testModel);
 		assertEquals(testview.loadbtn.getText(), "Load");
 		assertEquals(testview.editbtn.getText(), "Edit");
 		assertEquals(testview.savebtn.getText(), "Save");
