@@ -64,16 +64,13 @@ public class BigView {
 		panel2.setBounds(466, 32, 658, 896); 
 		frame.getContentPane().add(panel2);		
 		
-		//synchronize left panel and right panel
-		JScrollBar scrLeft = panel.scrollPane.getVerticalScrollBar();
-		JScrollBar scrRight = panel2.scrollPane.getVerticalScrollBar();
-		scrLeft.setModel(scrRight.getModel());
-		
+				
 		JButton btnCompare = new JButton("Compare");
 		btnCompare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					control.compareText(dataSet, panel, panel2);
+					control.setScrollbarSync(true, panel, panel2);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  "hi");

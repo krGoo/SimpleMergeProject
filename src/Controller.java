@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
 import javax.swing.event.*;
 import javax.swing.event.CaretListener;
@@ -275,6 +276,17 @@ public class Controller {
 	      // remove "0"
 	      dataSet.right_String.remove(0);   dataSet.right_Boolean.remove(0);
 	      dataSet.left_String.remove(0);   dataSet.left_Boolean.remove(0);
+   }
+   
+   public void setScrollbarSync(boolean isSync, ViewView left, ViewView right) {
+	   if(isSync == true) {
+		   left.scrollPane.getVerticalScrollBar().setModel(right.scrollPane.getVerticalScrollBar().getModel());
+	   } else {
+		   left.scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
+		   right.scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
+		   
+	   }
+	   
    }
    
 }
