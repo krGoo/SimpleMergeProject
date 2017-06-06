@@ -1,4 +1,4 @@
-package view;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 public class leftview extends viewview {
 	
-	public void initialize() {
+	public void initialize( Controller control, Model dataSet) {
 		setBounds(14, 12, 468, 503);
 		setLayout(null);		
 		
@@ -27,8 +27,8 @@ public class leftview extends viewview {
 			     File file = fs.getSelectedFile();
 			     	
 			     try{
-			    	 Controller.loadFile(file, 0); //��Ʈ�ѷ� ȣ��
-			    	 Controller.saveStringToModel(0);
+			    	 control.loadFile(dataSet, file, 0); //��Ʈ�ѷ� ȣ��
+			    	 control.saveStringToModel(dataSet,0);
 			   	   	showloadedFile(0);//�𵨿��� ������ get		
 			     }
 			     catch (Exception e){

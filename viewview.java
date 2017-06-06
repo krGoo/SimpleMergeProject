@@ -1,5 +1,3 @@
-package view;
-
 
 import javax.swing.JPanel;
 
@@ -18,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 abstract class viewview extends JPanel{
+
 	JButton savebtn = new JButton("Save");
 	JButton editbtn = new JButton("Edit");
 	JButton loadbtn = new JButton("Load");
@@ -43,8 +42,8 @@ abstract class viewview extends JPanel{
             JTextArea editArea = (JTextArea)e.getSource();
             try {
                 int caretpos = editArea.getCaretPosition();
-                Controller.setLineNum(editArea.getLineOfOffset(caretpos));
-                Controller.incereaselineNum();
+                control.setLineNum(editArea.getLineOfOffset(caretpos));
+                control.incereaselineNum();
             }
             catch(Exception ex) { }               
         }            

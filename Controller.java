@@ -1,4 +1,3 @@
-package view;
 
 
 import java.awt.Color;
@@ -16,137 +15,139 @@ import javax.swing.text.Utilities;
 
 
 public class Controller {
-   static int linenum = 1;
+	
+	
+    int linenum = 1;
    
    
-   public static void loadFile(File ldfile, int num){
-      Model.load(ldfile, num);
+   public  void loadFile(Model dataSet, File ldfile, int num){
+      dataSet.load(ldfile, num);
    }
    
-   public static void saveFile(File svfile, String content, int num) throws IOException{
-      Model.save(svfile, content, num);
+   public  void saveFile(Model dataSet, File svfile, String content, int num) throws IOException{
+      dataSet.save(svfile, content, num);
    }
    
-   public static void saveStringToModel(int num){
-      Model.saveString(num);
+   public  void saveStringToModel(Model dataSet, int num){
+      dataSet.saveString(num);
    }   
    
-   public static void copyToLeft(viewview left, viewview right) {      	      
-	  findBox(0, linenum);
-	  compareText(left,right);
+   public  void copyToLeft(Model dataSet, viewview left, viewview right) {      	      
+	  findBox(dataSet, 0, linenum);
+	  compareText(dataSet, left,right);
    } 
    
-   public static void copyToRight(viewview left, viewview right) {
-	  findBox(1, linenum);
-      compareText(left,right);
+   public  void copyToRight(Model dataSet, viewview left, viewview right) {
+	  findBox(dataSet, 1, linenum);
+      compareText(dataSet, left,right);
    }
    
-   public static void AllcopyToLeft(viewview left, viewview right) {
+   public  void AllcopyToLeft(viewview left, viewview right) {
       left.textPane.setText(right.textPane.getText());
       right.textPane.setText(left.textPane.getText());
    }
    
-   public static void AllcopyToRight(viewview left, viewview right) {
+   public  void AllcopyToRight(viewview left, viewview right) {
       right.textPane.setText(left.textPane.getText());
       left.textPane.setText(right.textPane.getText());
    }
    
    
-   public static void compareText(viewview left, viewview right) {
+   public  void compareText(Model dataSet, viewview left, viewview right) {
 	   // Clean Boolean
-	  Model.left_Boolean.clear();
-	  Model.right_Boolean.clear(); 
+	  dataSet.left_Boolean.clear();
+	  dataSet.right_Boolean.clear(); 
       
-	  LCS_algorithm();
+	  LCS_algorithm(dataSet);
 	  
       // Lining with same string               
-      for(int k=0; k<Model.getSize("right") && k<Model.getSize("left"); k++) {
-         if(Model.getBoolean("left", k).equals(false) && Model.getBoolean("right", k).equals(true)) {
-            Model.addString("right", k, "");
-            Model.addBoolean("right", k, false);
+      for(int k=0; k<dataSet.getSize("right") && k<dataSet.getSize("left"); k++) {
+         if(dataSet.getBoolean("left", k).equals(false) && dataSet.getBoolean("right", k).equals(true)) {
+            dataSet.addString("right", k, "");
+            dataSet.addBoolean("right", k, false);
          }
-         else if(Model.getBoolean("left", k).equals(true) && Model.getBoolean("right", k).equals(false) ) {
-            Model.addString("left", k, "");
-            Model.addBoolean("left", k, false);
+         else if(dataSet.getBoolean("left", k).equals(true) && dataSet.getBoolean("right", k).equals(false) ) {
+            dataSet.addString("left", k, "");
+            dataSet.addBoolean("left", k, false);
          }            
       }      
             
       // set Same line
-      setSameLining();      
+      setSameLining(dataSet);      
 
       // if both lines are empty, their booleans are true
-      for(int k=0; k<Model.getSize("right"); k++) {
-    	  if(Model.getString("left", k).equals(Model.getString("right", k))) {
-    		  Model.setBoolean("left", k, true);
-    		  Model.setBoolean("right", k, true);
+      for(int k=0; k<dataSet.getSize("right"); k++) {
+    	  if(dataSet.getString("left", k).equals(dataSet.getString("right", k))) {
+    		  dataSet.setBoolean("left", k, true);
+    		  dataSet.setBoolean("right", k, true);
     	  }
       }
       
       // set Text new
-      remakeText(left, right);            
+      remakeText(dataSet, left, right);            
       
       // Highlighting false line
-      Highlighting(left, right);       
+      Highlighting(dataSet, left, right);       
    }   
    
    
    
-   public static void setLineNum(int line){
+   public  void setLineNum(int line){
 	   linenum=line;
    }
-   public static void incereaselineNum(){
+   public  void incereaselineNum(){
        linenum++;
    }
    
    
    
-   public static void setSameLining() {
-      while(Model.getSize("left") > Model.getSize("right")) {
-    	  Model.addString("right","");
-    	  Model.addBoolean("right",false);
+   public  void setSameLining(Model dataSet) {
+      while(dataSet.getSize("left") > dataSet.getSize("right")) {
+    	  dataSet.addString("right","");
+    	  dataSet.addBoolean("right",false);
       }
-      while(Model.getSize("left") < Model.getSize("right")) {
-    	  Model.addString("left","");
-    	  Model.addBoolean("left",false);
+      while(dataSet.getSize("left") < dataSet.getSize("right")) {
+    	  dataSet.addString("left","");
+    	  dataSet.addBoolean("left",false);
       }
    }
    
-   public static void findBox(int num, int line){
+   public  void findBox(Model dataSet, int num, int line){
 	      int up = line - 1;
 	      int down = line - 1;
 	      
-	      while(Model.getBoolean("right", up).equals(false) && up>0)	      						// find false up line  
+	      while(dataSet.getBoolean("right", up).equals(false) && up>0)	      						// find false up line  
 	          up--;
-	      while(Model.getBoolean("left", down).equals(false) && down< Model.getSize("left")-1)	// find false down line         
+	      while(dataSet.getBoolean("left", down).equals(false) && down< dataSet.getSize("left")-1)	// find false down line         
 	          down++;
 	      
 	      if(num == 0) {
 	    	  for(int i=up+1; i<= down+1; i++)
-	    		  Model.setString("left", i-1, Model.getString("right", i-1));
+	    		  dataSet.setString("left", i-1, dataSet.getString("right", i-1));
 	      }
 	      else {
 	    	  for(int i=up+1; i<= down+1; i++)
-	    		  Model.setString("right", i-1, Model.getString("left", i-1));
+	    		  dataSet.setString("right", i-1, dataSet.getString("left", i-1));
 	      }
 	   }
    
-   public static void remakeText(viewview left, viewview right) {
+   public  void remakeText(Model dataSet, viewview left, viewview right) {
 	// set new textPane
 	      String x = "";
 	      String y = "";
 	      
-	      for(int k=0; k<Model.getSize("left"); k++) 
-	 	     x += Model.getString("left", k) +  "\n";
+	      for(int k=0; k<dataSet.getSize("left"); k++) 
+	 	     x += dataSet.getString("left", k) +  "\n";
 	     
 	      
-	      for(int k=0; k<Model.getSize("right"); k++)
-	 	      y += Model.getString("right", k) +  "\n";
+	      for(int k=0; k<dataSet.getSize("right"); k++)
+	 	      y += dataSet.getString("right", k) +  "\n";
 	     
 	      left.textPane.setText(x);
 	      right.textPane.setText(y);
    }
    
-   public static void Highlighting(viewview left, viewview right) {
+   public  void Highlighting(Model dataSet, viewview left, viewview right) {
 	// initialize Highlighter
 	      DefaultHighlighter Lhighlighter =  (DefaultHighlighter)left.textPane.getHighlighter();
 	      DefaultHighlighter Rhighlighter =  (DefaultHighlighter)right.textPane.getHighlighter();
@@ -164,29 +165,29 @@ public class Controller {
 	         int n=0;
 	         int m=0;
 	         
-	         for(l=0; l<Model.getSize("left"); l++) {
+	         for(l=0; l<dataSet.getSize("left"); l++) {
 	            int leftStart=left.textPane.getLineStartOffset(n);
 	            int leftEnd = left.textPane.getLineEndOffset(n);
 	            
-	            if(Model.getBoolean("left", l).equals(false)) {
+	            if(dataSet.getBoolean("left", l).equals(false)) {
 	               Lhighlighter.addHighlight(leftStart, leftEnd, paint);
 	            }            
-	               leftStart += Model.getString("left", l).length() + 1;
-	               leftEnd = leftStart +  Model.getString("left", l).length();
+	               leftStart += dataSet.getString("left", l).length() + 1;
+	               leftEnd = leftStart +  dataSet.getString("left", l).length();
 	               n++;
 	               
 	          }
 	         
-	         for(r=0; r<Model.getSize("right"); r++) {
+	         for(r=0; r<dataSet.getSize("right"); r++) {
 	            
 	            int rightStart= right.textPane.getLineStartOffset(m);
 	            int rightEnd  = right.textPane.getLineEndOffset(m);
 	            
-	            if(Model.getBoolean("right", r).equals(false)){
+	            if(dataSet.getBoolean("right", r).equals(false)){
 	               Rhighlighter.addHighlight(rightStart, rightEnd, paint);
 	            }
-	               rightStart += Model.getString("right", r).length() + 1;   
-	               rightEnd = rightStart +  Model.getString("right", r).length();
+	               rightStart += dataSet.getString("right", r).length() + 1;   
+	               rightEnd = rightStart +  dataSet.getString("right", r).length();
 	               m++;
 	         }         
 	   
@@ -196,20 +197,20 @@ public class Controller {
    }
    
    
-   public static void LCS_algorithm() {
-	   int rightSize = Model.getSize("right") + 1;
-	      int leftSize = Model.getSize("left") + 1;
+   public  void LCS_algorithm(Model dataSet) {
+	   int rightSize = dataSet.getSize("right") + 1;
+	      int leftSize = dataSet.getSize("left") + 1;
 	      int lcs[][] = new int[leftSize][rightSize];      
 	      
 	      //initialize Boolean
 	      for(int i=0; i<rightSize; i++) 
-	    	  Model.addBoolean("right", false);  
+	    	  dataSet.addBoolean("right", false);  
 	      for(int i=0; i<leftSize; i++)
-	    	  Model.addBoolean("left", false);  
+	    	  dataSet.addBoolean("left", false);  
 
 	      // add "0" for easy LCS algorithm
-	      Model.addString("right", 0, "0"); 
-	      Model.addString("left", 0, "0");     
+	      dataSet.addString("right", 0, "0"); 
+	      dataSet.addString("left", 0, "0");     
 	      
 	      // LCS algorithm with ignoring empty line
 	      for(int i=1; i<leftSize; i++) {
@@ -221,8 +222,8 @@ public class Controller {
 	               continue;
 	            }
 	            
-	            if((!Model.getString("left",i).equals("") || !Model.getString("right",j).equals("")) 
-	            		&& Model.getString("left",i).equals(Model.getString("right",j))) {
+	            if((!dataSet.getString("left",i).equals("") || !dataSet.getString("right",j).equals("")) 
+	            		&& dataSet.getString("left",i).equals(dataSet.getString("right",j))) {
 	               lcs[i][j] = lcs[i-1][j-1] + 1;
 	            }
 	            else {
@@ -246,16 +247,16 @@ public class Controller {
 	            i--;
 	         }
 	         else if(lcs[i][j] - 1 == lcs[i-1][j-1]) {
-	        	Model.setBoolean("left", i, true);
-	        	Model.setBoolean("right", j, true);         
+	        	dataSet.setBoolean("left", i, true);
+	        	dataSet.setBoolean("right", j, true);         
 	            i--;
 	            j--;
 	         }
 	      }      
 	      
 	      // remove "0"
-	      Model.right_String.remove(0);   Model.right_Boolean.remove(0);
-	      Model.left_String.remove(0);   Model.left_Boolean.remove(0);
+	      dataSet.right_String.remove(0);   dataSet.right_Boolean.remove(0);
+	      dataSet.left_String.remove(0);   dataSet.left_Boolean.remove(0);
    }
    
 }

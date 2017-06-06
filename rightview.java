@@ -1,5 +1,3 @@
-package view;
-
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,7 +73,7 @@ public class rightview extends viewview {
 					String content = textPane.getText();
 					File file = fs.getSelectedFile();
 					try{
-						Controller.saveFile(file, content, 1);
+						Control.saveFile(file, content, 1);
 					}
 					catch (Exception e){
 						JOptionPane.showMessageDialog(null,  e.getMessage());

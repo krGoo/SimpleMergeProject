@@ -1,4 +1,3 @@
-package view;
 
 
 import java.io.BufferedReader;
@@ -12,19 +11,19 @@ import javax.swing.JOptionPane;
 
 public class Model {
 	
-	static File[] file = new File[2];
-	static ArrayList<String> left_String = new ArrayList<String>();
-	static ArrayList<String> right_String = new ArrayList<String>();
-	static ArrayList<Boolean> left_Boolean = new ArrayList<Boolean>();
-	static ArrayList<Boolean> right_Boolean = new ArrayList<Boolean>();
+	 File[] file = new File[2];
+	 ArrayList<String> left_String = new ArrayList<String>();
+	 ArrayList<String> right_String = new ArrayList<String>();
+	 ArrayList<Boolean> left_Boolean = new ArrayList<Boolean>();
+	 ArrayList<Boolean> right_Boolean = new ArrayList<Boolean>();
 	
-	public static void load(File ldfile, int num){
+	public  void load(File ldfile, int num){
 	
 		file[num] = ldfile;
 		
 	}
 	
-	public static void save(File svfile, String content, int num) throws IOException{
+	public  void save(File svfile, String content, int num) throws IOException{
 		
 		FileWriter fw = new FileWriter(svfile.getPath() + ".txt");
 		fw.write(content);
@@ -33,11 +32,11 @@ public class Model {
 		
 	}	
 	
-	public static File getfile(int num){
+	public  File getfile(int num){
 		return file[num];
 	}
 	
-	public static String getString(int num) { //file�쓽 �궡�슜�쓣 string�쑝濡� 諛섑솚
+	public  String getString(int num) { //file占쎌벥 占쎄땀占쎌뒠占쎌뱽 string占쎌몵嚥∽옙 獄쏆꼹�넎
 		String s = "";
 		try{
 			BufferedReader br = new BufferedReader(new FileReader(file[num]));
@@ -56,7 +55,7 @@ public class Model {
 			return s;
 	}
 	
-	public static void saveString(int num) { //file�쓽 �궡�슜�쓣 string�쑝濡� 諛섑솚	
+	public  void saveString(int num) { //file占쎌벥 占쎄땀占쎌뒠占쎌뱽 string占쎌몵嚥∽옙 獄쏆꼹�넎	
 		if(num == 0) 
     		left_String.clear();
     	else
@@ -81,63 +80,63 @@ public class Model {
 		}
 	}	
 	
-	public static Boolean getBoolean(String s, int num) {
+	public  Boolean getBoolean(String s, int num) {
 		if(s.equals("left"))
 			return left_Boolean.get(num);
 		else
 			return right_Boolean.get(num);			
 	}
 	
-	public static String getString(String s, int num) {
+	public  String getString(String s, int num) {
 		if(s.equals("left"))
 			return left_String.get(num);
 		else
 			return right_String.get(num);			
 	}
 	
-	public static void setBoolean(String s, int num, Boolean bool) {
+	public  void setBoolean(String s, int num, Boolean bool) {
 		if(s.equals("left"))
 			left_Boolean.set(num,  bool);
 		else
 			right_Boolean.set(num,  bool);
 	}	
 	
-	public static void setString(String s, int num, String str) {
+	public  void setString(String s, int num, String str) {
 		if(s.equals("left"))
 			left_String.set(num,  str);
 		else
 			right_String.set(num,  str);
 	}
 	
-	public static int getSize(String s) {
+	public  int getSize(String s) {
 		if(s.equals("left"))
 			return left_String.size();
 		else
 			return right_String.size();
 	}
 	
-	public static void addString(String s, int num, String str) {
+	public  void addString(String s, int num, String str) {
 		if(s.equals("left"))
 			left_String.add(num,  str);
 		else
 			right_String.add(num,  str);
 	}
 	
-	public static void addBoolean(String s, int num, Boolean bool) {
+	public  void addBoolean(String s, int num, Boolean bool) {
 		if(s.equals("left"))
 			left_Boolean.add(num,  bool);
 		else
 			right_Boolean.add(num,  bool);
 	}
 	
-	public static void addBoolean(String s, Boolean bool) {
+	public  void addBoolean(String s, Boolean bool) {
 		if(s.equals("left"))
 			left_Boolean.add(bool);
 		else
 			right_Boolean.add(bool);
 	}
 	
-	public static void addString(String s, String str) {
+	public  void addString(String s, String str) {
 		if(s.equals("left"))
 			left_String.add(str);
 		else
