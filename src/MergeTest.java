@@ -1,4 +1,3 @@
-package view;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,8 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
-import junit.extensions.abbot.*;
-import abbot.tester.*;
+
+
 
 import java.awt.Button;
 import java.awt.event.*;
@@ -117,8 +116,8 @@ public class MergeTest extends TestCase{
 				assertTrue(Model.right_Boolean.get(i));
 		}
 		
-		leftview leftTestView = new leftview();
-		rightview rightTestView = new rightview();
+		LeftView leftTestView = new LeftView();
+		RightView rightTestView = new RightView();
 		Controller.remakeText(leftTestView, rightTestView);
 		
 		assertEquals("1\n2\n3\n4\n5\n6\n7\n",leftTestView.textPane.getText());
@@ -139,7 +138,7 @@ public class MergeTest extends TestCase{
 		
 	}
 	public void testleftview(){
-		leftview testview = new leftview();
+		LeftView testview = new LeftView();
 		assertEquals(testview.loadbtn.getText(), "Load");
 		assertEquals(testview.editbtn.getText(), "Edit");
 		assertEquals(testview.savebtn.getText(), "Save");
@@ -150,7 +149,7 @@ public class MergeTest extends TestCase{
 		
 	}
 	public void testrightview(){
-		rightview testview = new rightview();
+		RightView testview = new RightView();
 		assertEquals(testview.loadbtn.getText(), "Load");
 		assertEquals(testview.editbtn.getText(), "Edit");
 		assertEquals(testview.savebtn.getText(), "Save");

@@ -32,17 +32,17 @@ public class Controller {
       dataSet.saveString(num);
    }   
    
-   public  void copyToLeft(Model dataSet, viewview left, viewview right) {      	      
+   public  void copyToLeft(Model dataSet, ViewView left, ViewView right) {      	      
 	  findBox(dataSet, 0, linenum);
 	  compareText(dataSet, left,right);
    } 
    
-   public  void copyToRight(Model dataSet, viewview left, viewview right) {
+   public  void copyToRight(Model dataSet, ViewView left, ViewView right) {
 	  findBox(dataSet, 1, linenum);
       compareText(dataSet, left,right);
    }
    
-   public void AllcopyToLeft(Model dataSet, viewview left, viewview right) {
+   public void AllcopyToLeft(Model dataSet, ViewView left, ViewView right) {
 	      for(int i=0; i<dataSet.getSize("right"); i++) {
 	         dataSet.setString("left", i, dataSet.getString("right",i));
 	         dataSet.setBoolean("left", i, dataSet.getBoolean("right", i));
@@ -50,7 +50,7 @@ public class Controller {
 	      compareText(dataSet, left,right);
 	   }
 	   
-	   public void AllcopyToRight(Model dataSet, viewview left, viewview right) {
+	   public void AllcopyToRight(Model dataSet, ViewView left, ViewView right) {
 	      for(int i=0; i<dataSet.getSize("left"); i++) {
 	         dataSet.setString("right", i, dataSet.getString("left",i));
 	         dataSet.setBoolean("right", i, dataSet.getBoolean("left", i));
@@ -59,7 +59,7 @@ public class Controller {
 	   }
    
    
-   public  void compareText(Model dataSet, viewview left, viewview right) {
+   public  void compareText(Model dataSet, ViewView left, ViewView right) {
 	   // Clean Boolean
 	  dataSet.left_Boolean.clear();
 	  dataSet.right_Boolean.clear(); 
@@ -149,7 +149,7 @@ public class Controller {
 	      }
 	   }
    
-   public  void remakeText(Model dataSet, viewview left, viewview right) {
+   public  void remakeText(Model dataSet, ViewView left, ViewView right) {
 	// set new textPane
 	      String x = "";
 	      String y = "";
@@ -165,7 +165,7 @@ public class Controller {
 	      right.textPane.setText(y);
    }
    
-   public  void Highlighting(Model dataSet, viewview left, viewview right) {
+   public  void Highlighting(Model dataSet, ViewView left, ViewView right) {
 	// initialize Highlighter
 	      DefaultHighlighter Lhighlighter =  (DefaultHighlighter)left.textPane.getHighlighter();
 	      DefaultHighlighter Rhighlighter =  (DefaultHighlighter)right.textPane.getHighlighter();
