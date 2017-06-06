@@ -26,15 +26,15 @@ abstract class viewview extends JPanel{
 	ArrayList<String> file_String = new ArrayList<String>();
 	ArrayList<Boolean> file_Boolean = new ArrayList<Boolean>();
 	
-	public viewview() {
-		initialize();
+	public viewview(Controller control, Model dataSet) {
+		initialize(control, dataSet);
 	}
 	
-	abstract public void initialize();
+	public abstract void initialize(Controller control, Model dataSet);
 	
-	abstract public void showloadedFile(int num);
+	abstract public void showloadedFile(int num, Model dataSet);
 
-	public void textpaneListener(JTextArea textpane){
+	public void textpaneListener(JTextArea textpane, Controller control){
 		
 	
 	textPane.addCaretListener(new CaretListener() {               

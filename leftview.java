@@ -8,6 +8,12 @@ import javax.swing.JOptionPane;
 
 public class leftview extends viewview {
 	
+	public leftview(Controller control, Model dataSet) {
+		super(control, dataSet);
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public void initialize( Controller control, Model dataSet) {
 		setBounds(14, 12, 468, 503);
 		setLayout(null);		
@@ -29,7 +35,7 @@ public class leftview extends viewview {
 			     try{
 			    	 control.loadFile(dataSet, file, 0); //��Ʈ�ѷ� ȣ��
 			    	 control.saveStringToModel(dataSet,0);
-			   	   	showloadedFile(0);//�𵨿��� ������ get		
+			   	   	showloadedFile(0, dataSet);//�𵨿��� ������ get		
 			     }
 			     catch (Exception e){
 			    	 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -71,7 +77,7 @@ public class leftview extends viewview {
 					String content = textPane.getText();
 					File file = fs.getSelectedFile();
 					try{
-						Controller.saveFile(file, content, 0);
+						control.saveFile(dataSet, file, content, 0);
 					}
 					catch (Exception e){
 						JOptionPane.showMessageDialog(null,  e.getMessage());
@@ -92,15 +98,18 @@ public class leftview extends viewview {
 	
 		scrollPane.setViewportView(textPane);
 		
-	textpaneListener(textPane);
+		
+		textpaneListener(textPane, control);
 		
 	}
 	
-	public void showloadedFile(int num){
-		
-		textPane.setText(Model.getString(0));
-		
+	
+		public void showloadedFile(int num, Model dataSet){		
+			textPane.setText(dataSet.getString(1));		
+		}
+
+
+	
+
+
 	}
-
-
-}

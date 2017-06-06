@@ -42,15 +42,21 @@ public class Controller {
       compareText(dataSet, left,right);
    }
    
-   public  void AllcopyToLeft(viewview left, viewview right) {
-      left.textPane.setText(right.textPane.getText());
-      right.textPane.setText(left.textPane.getText());
-   }
-   
-   public  void AllcopyToRight(viewview left, viewview right) {
-      right.textPane.setText(left.textPane.getText());
-      left.textPane.setText(right.textPane.getText());
-   }
+   public void AllcopyToLeft(Model dataSet, viewview left, viewview right) {
+	      for(int i=0; i<dataSet.getSize("right"); i++) {
+	         dataSet.setString("left", i, dataSet.getString("right",i));
+	         dataSet.setBoolean("left", i, dataSet.getBoolean("right", i));
+	      }
+	      compareText(dataSet, left,right);
+	   }
+	   
+	   public void AllcopyToRight(Model dataSet, viewview left, viewview right) {
+	      for(int i=0; i<dataSet.getSize("left"); i++) {
+	         dataSet.setString("right", i, dataSet.getString("left",i));
+	         dataSet.setBoolean("right", i, dataSet.getBoolean("left", i));
+	      }
+	      compareText(dataSet, left,right);
+	   }
    
    
    public  void compareText(Model dataSet, viewview left, viewview right) {
@@ -75,12 +81,24 @@ public class Controller {
       // set Same line
       setSameLining(dataSet);      
 
-      // if both lines are empty, their booleans are true
+   // if both lines are empty, their booleans are true
       for(int k=0; k<dataSet.getSize("right"); k++) {
-    	  if(dataSet.getString("left", k).equals(dataSet.getString("right", k))) {
-    		  dataSet.setBoolean("left", k, true);
-    		  dataSet.setBoolean("right", k, true);
-    	  }
+         if(dataSet.getString("left", k).equals("") && dataSet.getBoolean("left", k).equals(false))
+            dataSet.setBoolean("left", k, true);
+         else if(dataSet.getString("left", k).equals("") && dataSet.getBoolean("left", k).equals(true))
+             dataSet.setBoolean("left", k, false);
+         
+         if(dataSet.getString("right", k).equals("") && dataSet.getBoolean("right", k).equals(false))
+             dataSet.setBoolean("right", k, true);   
+         else if(dataSet.getString("right", k).equals("") && dataSet.getBoolean("right", k).equals(true))
+             dataSet.setBoolean("right", k, false);           
+      }
+      
+      for(int k=0; k<dataSet.getSize("right"); k++) {
+         if(!dataSet.getBoolean("left", k).equals(dataSet.getBoolean("right", k))) {
+            dataSet.setBoolean("left", k, false);
+            dataSet.setBoolean("right", k, false);
+         }              
       }
       
       // set Text new

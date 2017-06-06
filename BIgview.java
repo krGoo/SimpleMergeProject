@@ -17,10 +17,17 @@ public class BIgview {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
+		Controller control = new Controller();
+		Model dataSet = new Model();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BIgview window = new BIgview();
+					
+					
+					BIgview window = new BIgview(control, dataSet);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,27 +39,27 @@ public class BIgview {
 	/**
 	 * Create the application.
 	 */
-	public BIgview() {
-		initialize();
+	public BIgview(Controller control, Model dataSet) {
+		initialize(control, dataSet);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {		
+	private void initialize(Controller control, Model dataSet) {		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1026, 987);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);	
 		
 		
-		panel = new leftview();
+		panel = new leftview(control, dataSet);
 		panel.setSize(452, 896);
 		panel.setLocation(0, 32);
 		frame.getContentPane().add(panel);
 		
 
-		panel2 = new rightview();
+		panel2 = new rightview(control, dataSet);
 		panel2.setBounds(466, 32, 658, 896); 
 		frame.getContentPane().add(panel2);		
 		
@@ -61,7 +68,7 @@ public class BIgview {
 		btnCompare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.compareText(panel, panel2);
+					control.compareText(dataSet, panel, panel2);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  "hi");
@@ -77,7 +84,7 @@ public class BIgview {
 		btnCopyToRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.copyToRight(panel, panel2);
+					control.copyToRight(dataSet, panel, panel2);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  e.getMessage());
@@ -93,7 +100,7 @@ public class BIgview {
 		btnCopyToLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.copyToLeft(panel, panel2);
+					control.copyToLeft(dataSet, panel, panel2);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  e.getMessage());
@@ -108,7 +115,7 @@ public class BIgview {
 		btnAllCopyToLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.AllcopyToLeft(panel, panel2);
+					control.AllcopyToLeft(dataSet, panel, panel2);
 			
 				}
 				catch (Exception e){
@@ -124,7 +131,7 @@ public class BIgview {
 		btnAllCopyToRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.AllcopyToRight(panel, panel2);
+					control.AllcopyToRight(dataSet, panel, panel2);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  e.getMessage());

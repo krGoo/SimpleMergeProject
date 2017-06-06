@@ -12,7 +12,12 @@ import javax.swing.JTextPane;
 
 public class rightview extends viewview {
 	
-	public void initialize() {
+	public rightview(Controller control, Model dataSet) {
+		super(control, dataSet);
+		// TODO Auto-generated constructor stub
+	}
+
+	public void initialize(Controller control, Model dataSet) {
 		setBounds(14, 12, 468, 503);
 		setLayout(null);		
 		
@@ -31,9 +36,9 @@ public class rightview extends viewview {
 			     File file = fs.getSelectedFile();
 			     	
 			     try {
-			    	 Controller.loadFile(file, 1); //��Ʈ�ѷ� ȣ��
-			    	 Controller.saveStringToModel(1);
-			    	 showloadedFile(1);//�𵨿��� ������ get
+			    	 control.loadFile(dataSet, file, 1); //��Ʈ�ѷ� ȣ��
+			    	 control.saveStringToModel(dataSet,1);
+			    	 showloadedFile(1, dataSet);//�𵨿��� ������ get
 			     }
 			     catch (Exception e) {
 			    	 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -73,7 +78,7 @@ public class rightview extends viewview {
 					String content = textPane.getText();
 					File file = fs.getSelectedFile();
 					try{
-						Control.saveFile(file, content, 1);
+						control.saveFile(dataSet, file, content, 1);
 					}
 					catch (Exception e){
 						JOptionPane.showMessageDialog(null,  e.getMessage());
@@ -94,10 +99,10 @@ public class rightview extends viewview {
 	
 		scrollPane.setViewportView(textPane);
 		
-		textpaneListener(textPane);
+		textpaneListener(textPane, control);
 	}
 	
-	public void showloadedFile(int num){		
-		textPane.setText(Model.getString(1));		
+	public void showloadedFile(int num, Model dataSet){		
+		textPane.setText(dataSet.getString(1));		
 	}
 }
