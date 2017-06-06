@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.*;
 
 public class BigView {
 	Controller control = new Controller();
@@ -52,7 +53,7 @@ public class BigView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);	
 		
-		
+						
 		panel = new LeftView(control, dataSet);
 		panel.setSize(452, 896);
 		panel.setLocation(0, 32);
@@ -63,6 +64,10 @@ public class BigView {
 		panel2.setBounds(466, 32, 658, 896); 
 		frame.getContentPane().add(panel2);		
 		
+		//synchronize left panel and right panel
+		JScrollBar scrLeft = panel.scrollPane.getVerticalScrollBar();
+		JScrollBar scrRight = panel2.scrollPane.getVerticalScrollBar();
+		scrLeft.setModel(scrRight.getModel());
 		
 		JButton btnCompare = new JButton("Compare");
 		btnCompare.addActionListener(new ActionListener() {
