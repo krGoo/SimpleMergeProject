@@ -70,6 +70,8 @@ public class BigView {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					control.compareText(dataSet, panel, panel2);
+					control.remakeText(dataSet, panel, panel2);
+					control.Highlighting(dataSet, panel, panel2);  
 					control.setScrollbarSync(true, panel, panel2);
 				}
 				catch (Exception e){

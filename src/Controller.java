@@ -35,12 +35,14 @@ public class Controller {
    
    public  void copyToLeft(Model dataSet, ViewView left, ViewView right) {      	      
 	  findBox(dataSet, 0, linenum);
-	  compareText(dataSet, left,right);
+      remakeText(dataSet, left, right);
+      Highlighting(dataSet, left, right); 
    } 
    
    public  void copyToRight(Model dataSet, ViewView left, ViewView right) {
 	  findBox(dataSet, 1, linenum);
-      compareText(dataSet, left,right);
+      remakeText(dataSet, left, right);
+      Highlighting(dataSet, left, right);  
    }
    
    public void AllcopyToLeft(Model dataSet, ViewView left, ViewView right) {
@@ -49,6 +51,8 @@ public class Controller {
 	         dataSet.setBoolean("left", i, dataSet.getBoolean("right", i));
 	      }
 	      compareText(dataSet, left,right);
+	      remakeText(dataSet, left, right);
+	      Highlighting(dataSet, left, right);
 	   }
 	   
 	   public void AllcopyToRight(Model dataSet, ViewView left, ViewView right) {
@@ -57,6 +61,8 @@ public class Controller {
 	         dataSet.setBoolean("right", i, dataSet.getBoolean("left", i));
 	      }
 	      compareText(dataSet, left,right);
+	      remakeText(dataSet, left, right);
+	      Highlighting(dataSet, left, right);
 	   }
    
    
@@ -71,11 +77,11 @@ public class Controller {
       for(int k=0; k<dataSet.getSize("right") && k<dataSet.getSize("left"); k++) {
          if(dataSet.getBoolean("left", k).equals(false) && dataSet.getBoolean("right", k).equals(true)) {
             dataSet.addString("right", k, "");
-            dataSet.addBoolean("right", k, false);
+            dataSet.addBoolean("right", k, true);
          }
          else if(dataSet.getBoolean("left", k).equals(true) && dataSet.getBoolean("right", k).equals(false) ) {
             dataSet.addString("left", k, "");
-            dataSet.addBoolean("left", k, false);
+            dataSet.addBoolean("left", k, true);
          }            
       }      
             
@@ -100,13 +106,7 @@ public class Controller {
             dataSet.setBoolean("left", k, false);
             dataSet.setBoolean("right", k, false);
          }              
-      }
-      
-      // set Text new
-      remakeText(dataSet, left, right);            
-      
-      // Highlighting false line
-      Highlighting(dataSet, left, right);       
+      }  
    }   
    
    
@@ -141,12 +141,18 @@ public class Controller {
 	          down++;
 	      
 	      if(num == 0) {
-	    	  for(int i=up+1; i<= down+1; i++)
+	    	  for(int i=up+1; i<= down+1; i++) {
 	    		  dataSet.setString("left", i-1, dataSet.getString("right", i-1));
+	    		  dataSet.setBoolean("left", i-1, true);
+	    		  dataSet.setBoolean("right", i-1, true);
+	    	  }
 	      }
 	      else {
-	    	  for(int i=up+1; i<= down+1; i++)
+	    	  for(int i=up+1; i<= down+1; i++) {
 	    		  dataSet.setString("right", i-1, dataSet.getString("left", i-1));
+	    		  dataSet.setBoolean("right", i-1, true);
+	    		  dataSet.setBoolean("left", i-1, true);
+	    	  }
 	      }
 	   }
    
@@ -159,13 +165,54 @@ public class Controller {
 	 	     x += dataSet.getString("left", k) +  "\n";
 	     
 	      
-	      for(int k=0; k<dataSet.getSize("right"); k++)
+	      for(int k=0; k<dataSet.getSize("right"); k++) 
 	 	      y += dataSet.getString("right", k) +  "\n";
 	     
 	      left.textPane.setText(x);
 	      right.textPane.setText(y);
    }
-   
+   public  void Highlighting(Model dataSet, ViewView left, ViewView right, int start, int end) {
+	   			// initialize Highlighter
+		      DefaultHighlighter Lhighlighter =  (DefaultHighlighter)left.textPane.getHighlighter();
+		      DefaultHighlighter Rhighlighter =  (DefaultHighlighter)right.textPane.getHighlighter();
+		      
+		      Highlighter.HighlightPainter paint = new DefaultHighlighter.DefaultHighlightPainter(Color.WHITE);
+		   
+		      // hi
+		      Lhighlighter.setDrawsLayeredHighlights(false);
+		      Rhighlighter.setDrawsLayeredHighlights(false);
+		       
+		      try {         
+		    	  int n=0;
+		    	  int m=0;
+		    	  
+			         for(int k=start; k<end; k++) {			            
+			            if(dataSet.getBoolean("left", k).equals(false)) {
+			               Lhighlighter.addHighlight(start, end, paint);
+			            }            
+			               start += dataSet.getString("left", k).length() + 1;
+			               end = start +  dataSet.getString("left", k).length();
+			               n++;
+			               
+			          }
+			         
+			         for(int k=start; k<end; k++) {
+			            if(dataSet.getBoolean("right", k).equals(false)){
+			               Rhighlighter.addHighlight(start, end, paint);
+			            }
+			               start += dataSet.getString("right", k).length() + 1;   
+			               end = start +  dataSet.getString("right", k).length();
+			               m++;
+			         }         
+			   
+			      } catch (BadLocationException e) {
+			         e.printStackTrace();
+			      }
+   }
+		      
+		      
+		      
+		      
    public  void Highlighting(Model dataSet, ViewView left, ViewView right) {
 	// initialize Highlighter
 	      DefaultHighlighter Lhighlighter =  (DefaultHighlighter)left.textPane.getHighlighter();

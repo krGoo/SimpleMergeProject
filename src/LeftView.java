@@ -105,7 +105,7 @@ public class LeftView extends ViewView {
 	
 	
 		public void showloadedFile(int num, Model dataSet){		
-			textPane.setText(dataSet.getString(1));		
+			textPane.setText(dataSet.getString(0));		
 		}
 
 
