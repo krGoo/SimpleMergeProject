@@ -10,8 +10,8 @@ import java.awt.event.ActionEvent;
 public class BigView {
 	Controller control = new Controller();
 	private JFrame frame;
-	ViewView panel;
-	ViewView panel2;	
+	ViewView leftView;
+	ViewView rightView;	
 	
 	/**
 	 * Launch the application.
@@ -53,15 +53,15 @@ public class BigView {
 		frame.getContentPane().setLayout(null);	
 		
 						
-		panel = new LeftView(control, dataSet);
-		panel.setSize(452, 896);
-		panel.setLocation(0, 32);
-		frame.getContentPane().add(panel);
+		leftView = new LeftView(control, dataSet);
+		leftView.setSize(452, 896);
+		leftView.setLocation(0, 32);
+		frame.getContentPane().add(leftView);
 		
 
-		panel2 = new RightView(control, dataSet);
-		panel2.setBounds(466, 32, 658, 896); 
-		frame.getContentPane().add(panel2);		
+		rightView = new RightView(control, dataSet);
+		rightView.setBounds(466, 32, 658, 896); 
+		frame.getContentPane().add(rightView);		
 		
 				
 		JButton btnCompare = new JButton("Compare");
@@ -69,12 +69,14 @@ public class BigView {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try{
-					control.compareText(dataSet, panel, panel2);
-					control.remakeText(dataSet, panel, panel2);
-					control.Highlighting(dataSet, panel, panel2);  
-					control.setScrollbarSync(true, panel, panel2);
-					panel.textPane.setEditable(true);
-					panel2.textPane.setEditable(true);
+					control.setCurrentLeftText(dataSet, leftView);
+					control.setCurrentRightText(dataSet, rightView);
+					control.compareText(dataSet, leftView, rightView);
+					control.remakeText(dataSet, leftView, rightView);
+					control.Highlighting(dataSet, leftView, rightView);  
+					control.setScrollbarSync(true, leftView, rightView);
+					leftView.textPane.setEditable(true);
+					rightView.textPane.setEditable(true);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  "hi");
@@ -90,7 +92,7 @@ public class BigView {
 		btnCopyToRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.copyToRight(dataSet, panel, panel2);
+					control.copyToRight(dataSet, leftView, rightView);
 					
 				}
 				catch (Exception e){
@@ -107,7 +109,7 @@ public class BigView {
 		btnCopyToLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.copyToLeft(dataSet, panel, panel2);
+					control.copyToLeft(dataSet, leftView, rightView);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  e.getMessage());
@@ -122,7 +124,7 @@ public class BigView {
 		btnAllCopyToLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.AllcopyToLeft(dataSet, panel, panel2);
+					control.AllcopyToLeft(dataSet, leftView, rightView);
 			
 				}
 				catch (Exception e){
@@ -138,7 +140,7 @@ public class BigView {
 		btnAllCopyToRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					control.AllcopyToRight(dataSet, panel, panel2);
+					control.AllcopyToRight(dataSet, leftView, rightView);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  e.getMessage());

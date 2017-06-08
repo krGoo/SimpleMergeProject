@@ -36,6 +36,7 @@ public class LeftView extends ViewView {
 			    	 control.saveStringToModel(dataSet,0);
 			   	   	 showloadedFile(0, dataSet);	
 			   	   	 scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
+			   	   	 scrollPane.setViewportView(textPane);
 			   	   	 textPane.setEditable(false);
 			     }
 			     catch (Exception e){
@@ -48,16 +49,14 @@ public class LeftView extends ViewView {
 		loadbtn.setBounds(0, 12, 105, 27);
 		add(loadbtn);
 		
-		
-		
 
 		editbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent arg0) {
-			if(textPane.isEditable() == false)
-			textPane.setEditable(true);
-			else{
-				textPane.setEditable(false);
-			}
+				if(textPane.isEditable() == false)
+						textPane.setEditable(true);
+				else{
+					textPane.setEditable(false);
+				}
 			}
 		});
 		editbtn.setBounds(232, 0, 109, 78);

@@ -15,7 +15,6 @@ public class RightView extends ViewView {
 	public void initialize(Controller control, Model dataSet) {
 		setBounds(14, 12, 468, 503);
 		setLayout(null);		
-		
 	
 		loadbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -35,6 +34,7 @@ public class RightView extends ViewView {
 			    	 control.saveStringToModel(dataSet,1);
 			    	 showloadedFile(1, dataSet);
 			    	 scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
+			    	 scrollPane.setViewportView(textPane);
 					 textPane.setEditable(false);
 			     }
 			     catch (Exception e) {
@@ -50,11 +50,11 @@ public class RightView extends ViewView {
 	
 		editbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent arg0) {
-			if(textPane.isEditable() == false)
-			textPane.setEditable(true);
-			else{
-				textPane.setEditable(false);
-			}
+				if(textPane.isEditable() == false)
+					textPane.setEditable(true);
+				else{
+					textPane.setEditable(false);
+				}
 			}
 		});
 		editbtn.setBounds(232, 0, 109, 78);

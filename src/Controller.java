@@ -24,7 +24,7 @@ public class Controller {
    }   
    
    public  void copyToLeft(Model dataSet, ViewView left, ViewView right) {      	
-	   setCurrentRightText(dataSet, right);
+	  setCurrentRightText(dataSet, right);
 	   
 	  findBox(dataSet, 0, linenum);
       remakeText(dataSet, left, right);
@@ -32,7 +32,7 @@ public class Controller {
    } 
    
    public  void copyToRight(Model dataSet, ViewView left, ViewView right) {
-	   setCurrentLeftText(dataSet, left);
+	  setCurrentLeftText(dataSet, left);
 	   
 	  findBox(dataSet, 1, linenum);
       remakeText(dataSet, left, right);
@@ -41,9 +41,12 @@ public class Controller {
    
    public void AllcopyToLeft(Model dataSet, ViewView left, ViewView right) {
 	   setCurrentRightText(dataSet, right);
-
-	   for(int i=0; i<dataSet.getSize("right"); i++) 
+		  
+	   for(int i=0; i<dataSet.getSize("right"); i++) {
 		   dataSet.setString("left", i, dataSet.getString("right",i));
+		   dataSet.setBoolean("left", i, true);
+		   dataSet.setBoolean("right", i, true);
+	   }
 	   
 	   compareText(dataSet, left,right);
 	   remakeText(dataSet, left, right);
@@ -53,8 +56,11 @@ public class Controller {
    public void AllcopyToRight(Model dataSet, ViewView left, ViewView right) {
 	   setCurrentLeftText(dataSet, left);
 	   
-	   for(int i=0; i<dataSet.getSize("left"); i++) 
+	   for(int i=0; i<dataSet.getSize("left"); i++) {
 		   dataSet.setString("right", i, dataSet.getString("left",i));
+		   dataSet.setBoolean("left", i, true);
+		   dataSet.setBoolean("right", i, true);
+	   }
 	   
 	   compareText(dataSet, left,right);
 	   remakeText(dataSet, left, right);
@@ -62,10 +68,7 @@ public class Controller {
    }
    
    
-   public  void compareText(Model dataSet, ViewView left, ViewView right) {
-	   setCurrentLeftText(dataSet, left); 
-	   setCurrentRightText(dataSet, right);
-	   
+   public  void compareText(Model dataSet, ViewView left, ViewView right) {	
 	   // Clean Boolean
 	  dataSet.left_Boolean.clear();
 	  dataSet.right_Boolean.clear(); 
@@ -281,16 +284,17 @@ public class Controller {
    public void setCurrentLeftText(Model dataSet,  ViewView v) {
 	   String s[] = v.textPane.getText().split("\n");
 	   
-	   for(int i=0; i<s.length; i++) 
+	   for(int i=0; i<s.length; i++)  {
 		   dataSet.setString("left", i, s[i]);
+	   }
    }
    
    public void setCurrentRightText(Model dataSet,  ViewView v) {
 	   String s[] = v.textPane.getText().split("\n");
 	   
-	   for(int i=0; i<s.length; i++) 
-		   dataSet.setString("right", i, s[i]);
+	   for(int i=0; i<s.length; i++) {
+			dataSet.setString("right", i, s[i]);
+	   }
    }
-   
 }
    
