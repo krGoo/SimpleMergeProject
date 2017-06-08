@@ -3,30 +3,28 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import org.easymock.EasyMock;
 
 import junit.framework.TestCase;
 
-import java.awt.Button;
-import java.awt.event.*;
 
 
 public class MergeTest extends TestCase{
 	Model testModel;
 	Controller testController;
-	//ComponentTester guiTester = new ComponentTester();
 	protected void setUp(){
 		testModel = new Model();
 		testController = new Controller();
 	}
 	protected void tearDown(){
-		
+		testModel = null;
+		testController = null;
 	}
 	public void testFileTypeFilter(){
 		FileTypeFilter testUnit = new FileTypeFilter(".txt","Text File");
 		assertEquals(testUnit.getDescription(), "Text File (*.txt)");
 		File fileTest;
-		fileTest = new File("C:\\1.txt");
+		fileTest = new File("D:\\1.txt");
 		assertTrue(testUnit.accept(fileTest));
 		fileTest = new File("");
 		assertFalse(testUnit.accept(fileTest));
@@ -37,9 +35,9 @@ public class MergeTest extends TestCase{
 		File fileTest_case1;
 		File fileTest_case2;
 		File saveFileTest;
-		fileTest_case1 = new File("C:\\1.txt");
-		fileTest_case2 = new File("C:\\2.txt");
-		saveFileTest = new File("C:\\3");
+		fileTest_case1 = new File("D:\\1.txt");
+		fileTest_case2 = new File("D:\\2.txt");
+		saveFileTest = new File("D:\\3");
 		
 		testModel.load(fileTest_case1, 0);
 		testModel.load(fileTest_case2, 1);
@@ -64,7 +62,7 @@ public class MergeTest extends TestCase{
 		
 		try {
 			testModel.save(saveFileTest, "abc", 0);
-			File testFile = new File("C:\\3.txt");
+			File testFile = new File("D:\\3.txt");
 			assertTrue(testFile.exists());
 			BufferedReader br = new BufferedReader(new FileReader(testFile));
 			String testString = br.readLine();
@@ -89,16 +87,24 @@ public class MergeTest extends TestCase{
 		assertEquals(testModel.getString("right",0), "1");
 		
 	}
+	public void testControllerWithMock(){
+		ModelInterface mockModel;
+		mockModel = EasyMock.createMock(ModelInterface.class);
+		EasyMock.expect(mockModel.getString("left",0)).andReturn("abc");
+		EasyMock.expect(mockModel.getSize("left")).andReturn(5);
+		EasyMock.replay(mockModel);
+		assertEquals(testController.testGetSize(mockModel, "left"), 5);
+		assertEquals(testController.testGetString(mockModel, "left", 0), "abc");
+	}
 	public void testController(){
 		File fileTest_case1;
 		File fileTest_case2;
-		fileTest_case1 = new File("C:\\1.txt");
-		fileTest_case2 = new File("C:\\2.txt");
+		fileTest_case1 = new File("D:\\1.txt");
+		fileTest_case2 = new File("D:\\2.txt");
 		testModel.load(fileTest_case1, 0);
 		testModel.load(fileTest_case2, 1);
 		testModel.saveString(0);
 		testModel.saveString(1);
-		
 		
 		testController.LCS_algorithm(testModel);
 		int[] leftSet = {0,1,1,1,1,0,1};
@@ -116,30 +122,21 @@ public class MergeTest extends TestCase{
 				assertTrue(testModel.right_Boolean.get(i));
 		}
 		
-		leftview leftTestView = new leftview(testController, testModel);
-		rightview rightTestView = new rightview(testController, testModel);
+		LeftView leftTestView = new LeftView(testController, testModel);
+		RightView rightTestView = new RightView(testController, testModel);
 		testController.remakeText(testModel, leftTestView, rightTestView);
-		
 		
 		assertEquals("1\n2\n3\n4\n5\n6\n7\n",leftTestView.textPane.getText());
 		assertEquals("2\n1\n3\n8\n4\n9\n5\n7\n6\n8\n",rightTestView.textPane.getText());
 		
 		testController.setSameLining(testModel);
 		testController.compareText(testModel, leftTestView, rightTestView);
+		testController.remakeText(testModel, leftTestView, rightTestView);
 		
 		assertEquals("1\n2\n\n3\n\n4\n\n5\n6\n7\n\n\n\n",leftTestView.textPane.getText());
 		assertEquals("\n2\n1\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
-		
-		
 		assertEquals(testModel.getSize("left"), testModel.getSize("right"));
-		
-		assertEquals(1, testController.linenum);
-		testController.setLineNum(4);
-		assertEquals(4, testController.linenum);
-		testController.incereaselineNum();
-		assertEquals(5, testController.linenum);
-		
-		
+	
 		testController.setLineNum(3);
 		assertEquals(3, testController.linenum);
 		testController.copyToRight(testModel, leftTestView, rightTestView);
@@ -176,62 +173,24 @@ public class MergeTest extends TestCase{
 		assertEquals("1\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",leftTestView.textPane.getText());
 		assertEquals("1\n2\n\n3\n8\n4\n9\n5\n\n7\n6\n8\n\n",rightTestView.textPane.getText());
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 	public void testleftview(){
-		leftview testview = new leftview(testController, testModel);
+		LeftView testview = new LeftView(testController, testModel);
 		assertEquals(testview.loadbtn.getText(), "Load");
 		assertEquals(testview.editbtn.getText(), "Edit");
 		assertEquals(testview.savebtn.getText(), "Save");
 		assertTrue(testview.scrollPane.isEnabled());
 		assertTrue(testview.textPane.isEnabled());
-		//ButtonTest guiTest = new ButtonTest("loadbtn");
-		//guiTest.testButton();
+
 		
 	}
 	public void testrightview(){
-		rightview testview = new rightview(testController, testModel);
+		RightView testview = new RightView(testController, testModel);
 		assertEquals(testview.loadbtn.getText(), "Load");
 		assertEquals(testview.editbtn.getText(), "Edit");
 		assertEquals(testview.savebtn.getText(), "Save");
 		assertTrue(testview.scrollPane.isEnabled());
 		assertTrue(testview.textPane.isEnabled());
 	}
-	/*
-	public class ButtonTest extends ComponentTestFixture{
-		private String clickType;
-		public ButtonTest (String name) {super(name);}
-		private ComponentTester tester;
-	    protected void setUp() {
-	        tester = new ComponentTester();
-	    }
-	    protected void tearDown() {
-
-	        tester = null;
-	    }
-	    public void testClick() {
-	        ActionListener al = new ActionListener() {
-	            public void actionPerformed(ActionEvent ev) {
-	                clickType = ev.getActionCommand();                            
-	            }
-	        };
-	    }
-	    public void testButton(){
-	    	setUp();
-	    	leftview testview = new leftview();
-	    	//tester.click(testview.loadbtn);
-	    	assertEquals(clickType, Button.ABORT);
-	    	tearDown();
-	    }
-	}
-	*/
 	
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class Model {
+public class Model implements ModelInterface{
 	
 	 File[] file = new File[2];
 	 ArrayList<String> left_String = new ArrayList<String>();
@@ -36,7 +36,7 @@ public class Model {
 		return file[num];
 	}
 	
-	public  String getString(int num) { //file占쎌벥 占쎄땀占쎌뒠占쎌뱽 string占쎌몵嚥∽옙 獄쏆꼹�넎
+	public  String getString(int num) {
 		String s = "";
 		try{
 			BufferedReader br = new BufferedReader(new FileReader(file[num]));
@@ -55,7 +55,7 @@ public class Model {
 			return s;
 	}
 	
-	public  void saveString(int num) { //file占쎌벥 占쎄땀占쎌뒠占쎌뱽 string占쎌몵嚥∽옙 獄쏆꼹�넎	
+	public  void saveString(int num) { 
 		if(num == 0) 
     		left_String.clear();
     	else

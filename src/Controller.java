@@ -335,6 +335,12 @@ public class Controller {
 	   }
 	   
    }
+   public int testGetSize(ModelInterface Model, String s){
+	   return Model.getSize(s);
+   }
+   public String testGetString(ModelInterface Model, String s, int num){
+	   return Model.getString(s, num);
+   }
    
 }
    
