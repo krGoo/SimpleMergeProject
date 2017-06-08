@@ -24,10 +24,7 @@ public class Controller {
    }   
    
    public  void copyToLeft(Model dataSet, ViewView left, ViewView right) {      	
-	   String s[] = right.textPane.getText().split("\n");
-	   
-	   for(int i=0; i<s.length; i++) 
-		   dataSet.setString("right", i, s[i]);
+	   setCurrentRightText(dataSet, right);
 	   
 	  findBox(dataSet, 0, linenum);
       remakeText(dataSet, left, right);
@@ -35,10 +32,7 @@ public class Controller {
    } 
    
    public  void copyToRight(Model dataSet, ViewView left, ViewView right) {
-	   String s[] = left.textPane.getText().split("\n");
-	   
-	   for(int i=0; i<s.length; i++) 
-		   dataSet.setString("left", i, s[i]);
+	   setCurrentLeftText(dataSet, left);
 	   
 	  findBox(dataSet, 1, linenum);
       remakeText(dataSet, left, right);
@@ -46,10 +40,7 @@ public class Controller {
    }
    
    public void AllcopyToLeft(Model dataSet, ViewView left, ViewView right) {
-	   String s[] = right.textPane.getText().split("\n");
-	   
-	   for(int i=0; i<s.length; i++) 
-		   dataSet.setString("right", i, s[i]);
+	   setCurrentRightText(dataSet, right);
 
 	   for(int i=0; i<dataSet.getSize("right"); i++) 
 		   dataSet.setString("left", i, dataSet.getString("right",i));
@@ -58,12 +49,9 @@ public class Controller {
 	   remakeText(dataSet, left, right);
 	   Highlighting(dataSet, left, right);	     
 	}
-	   
+   
    public void AllcopyToRight(Model dataSet, ViewView left, ViewView right) {
-	   String s[] = left.textPane.getText().split("\n");
-	   
-	   for(int i=0; i<s.length; i++) 
-		   dataSet.setString("left", i, s[i]);
+	   setCurrentLeftText(dataSet, left);
 	   
 	   for(int i=0; i<dataSet.getSize("left"); i++) 
 		   dataSet.setString("right", i, dataSet.getString("left",i));
@@ -75,6 +63,9 @@ public class Controller {
    
    
    public  void compareText(Model dataSet, ViewView left, ViewView right) {
+	   setCurrentLeftText(dataSet, left); 
+	   setCurrentRightText(dataSet, right);
+	   
 	   // Clean Boolean
 	  dataSet.left_Boolean.clear();
 	  dataSet.right_Boolean.clear(); 
@@ -284,8 +275,21 @@ public class Controller {
 		   left.scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
 		   right.scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
 		   
-	   }
+	   }	   
+   }
+   
+   public void setCurrentLeftText(Model dataSet,  ViewView v) {
+	   String s[] = v.textPane.getText().split("\n");
 	   
+	   for(int i=0; i<s.length; i++) 
+		   dataSet.setString("left", i, s[i]);
+   }
+   
+   public void setCurrentRightText(Model dataSet,  ViewView v) {
+	   String s[] = v.textPane.getText().split("\n");
+	   
+	   for(int i=0; i<s.length; i++) 
+		   dataSet.setString("right", i, s[i]);
    }
    
 }

@@ -130,7 +130,7 @@ public class BigView {
 				}
 			}
 		});
-		btnAllCopyToLeft.setBounds(340, 0, 123, 27);
+		btnAllCopyToLeft.setBounds(460, 0, 130, 27);
 		frame.getContentPane().add(btnAllCopyToLeft);
 		
 		
@@ -145,7 +145,7 @@ public class BigView {
 				}
 			}
 		});
-		btnAllCopyToRight.setBounds(460, 0, 130, 27);
+		btnAllCopyToRight.setBounds(340, 0, 127, 27);
 		frame.getContentPane().add(btnAllCopyToRight);
 		
 		

@@ -35,6 +35,7 @@ public class RightView extends ViewView {
 			    	 control.saveStringToModel(dataSet,1);
 			    	 showloadedFile(1, dataSet);
 			    	 scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
+					 textPane.setEditable(false);
 			     }
 			     catch (Exception e) {
 			    	 JOptionPane.showMessageDialog(null, e.getMessage());

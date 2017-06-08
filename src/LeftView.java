@@ -36,6 +36,7 @@ public class LeftView extends ViewView {
 			    	 control.saveStringToModel(dataSet,0);
 			   	   	 showloadedFile(0, dataSet);	
 			   	   	 scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
+			   	   	 textPane.setEditable(false);
 			     }
 			     catch (Exception e){
 			    	 JOptionPane.showMessageDialog(null, e.getMessage());
