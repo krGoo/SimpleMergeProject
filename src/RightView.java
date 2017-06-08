@@ -1,14 +1,8 @@
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 
 public class RightView extends ViewView {
 	
@@ -22,13 +16,13 @@ public class RightView extends ViewView {
 		setLayout(null);		
 		
 	
-		loadbtn.addActionListener(new ActionListener() { //�ҷ�����
+		loadbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JFileChooser fs = new JFileChooser(new File("c:\\"));
 			    fs.setDialogTitle("Open a File");
 			    fs.setFileFilter(new FileTypeFilter(".dat", "Data File"));
-			    fs.setFileFilter(new FileTypeFilter(".hwp", "�ѱ� ����"));
+			    fs.setFileFilter(new FileTypeFilter(".hwp", "Hwp File"));
 			    fs.setFileFilter(new FileTypeFilter(".txt", "Text File"));
 			    
 			    int result = fs.showOpenDialog(null);
@@ -36,9 +30,11 @@ public class RightView extends ViewView {
 			     File file = fs.getSelectedFile();
 			     	
 			     try {
-			    	 control.loadFile(dataSet, file, 1); //��Ʈ�ѷ� ȣ��
+			    	 control.loadFile(dataSet, file, 1);
 			    	 control.saveStringToModel(dataSet,1);
-			    	 showloadedFile(1, dataSet);//�𵨿��� ������ get
+			    	 showloadedFile(1, dataSet);
+				   	 control.setScrollbarSync(false, BigView.panel,BigView.panel2);
+				// 	BigView.panel.scrollPane.setViewportView(BigView.panel.textPane);
 			     }
 			     catch (Exception e) {
 			    	 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -51,7 +47,7 @@ public class RightView extends ViewView {
 		
 		
 	
-		editbtn.addActionListener(new ActionListener() { //�����ϱ�
+		editbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent arg0) {
 			if(textPane.isEditable() == false)
 			textPane.setEditable(true);
@@ -67,7 +63,7 @@ public class RightView extends ViewView {
 		
 		
 	
-		savebtn.addActionListener(new ActionListener() { //�����ϱ�
+		savebtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JFileChooser fs = new JFileChooser(new File("c:\\"));
@@ -96,7 +92,6 @@ public class RightView extends ViewView {
 		scrollPane.setBounds(10, 51, 394, 440);
 		add(scrollPane);
 		
-	
 		scrollPane.setViewportView(textPane);
 		
 		textpaneListener(textPane, control);

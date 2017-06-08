@@ -1,8 +1,6 @@
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -19,13 +17,13 @@ public class LeftView extends ViewView {
 		setLayout(null);		
 		
 		
-		loadbtn.addActionListener(new ActionListener() { //�ҷ�����
+		loadbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JFileChooser fs = new JFileChooser(new File("c:\\"));
 			    fs.setDialogTitle("Open a File");
 			    fs.setFileFilter(new FileTypeFilter(".dat", "Data File"));
-			    fs.setFileFilter(new FileTypeFilter(".hwp", "�ѱ� ����"));
+			    fs.setFileFilter(new FileTypeFilter(".hwp", "Hwp File"));
 			    fs.setFileFilter(new FileTypeFilter(".txt", "Text File"));
 			    
 			    int result = fs.showOpenDialog(null);
@@ -33,9 +31,11 @@ public class LeftView extends ViewView {
 			     File file = fs.getSelectedFile();
 			     	
 			     try{
-			    	 control.loadFile(dataSet, file, 0); //��Ʈ�ѷ� ȣ��
+			    	 control.loadFile(dataSet, file, 0); 
 			    	 control.saveStringToModel(dataSet,0);
-			   	   	showloadedFile(0, dataSet);//�𵨿��� ������ get		
+			   	   	 showloadedFile(0, dataSet);	
+			   	   	 control.setScrollbarSync(false, BigView.panel,BigView.panel2);
+			   //	   	BigView.panel2.scrollPane.setViewportView(BigView.panel2.textPane);
 			     }
 			     catch (Exception e){
 			    	 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -50,7 +50,7 @@ public class LeftView extends ViewView {
 		
 		
 
-		editbtn.addActionListener(new ActionListener() { //�����ϱ�
+		editbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent arg0) {
 			if(textPane.isEditable() == false)
 			textPane.setEditable(true);
@@ -66,7 +66,7 @@ public class LeftView extends ViewView {
 		
 		
 	
-		savebtn.addActionListener(new ActionListener() { //�����ϱ�
+		savebtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JFileChooser fs = new JFileChooser(new File("c:\\"));
@@ -95,9 +95,10 @@ public class LeftView extends ViewView {
 		scrollPane.setBounds(10, 51, 394, 440);
 		add(scrollPane);
 		
-	
-		scrollPane.setViewportView(textPane);
 		
+		
+		scrollPane.setViewportView(textPane);
+		scrollPane.setAutoscrolls(false);
 		
 		textpaneListener(textPane, control);
 		

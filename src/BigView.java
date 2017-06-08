@@ -1,5 +1,4 @@
 
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -7,13 +6,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.*;
 
 public class BigView {
 	Controller control = new Controller();
 	private JFrame frame;
-	ViewView panel;
-	ViewView panel2;	
+	static ViewView panel;
+	static ViewView panel2;	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -68,11 +67,14 @@ public class BigView {
 		JButton btnCompare = new JButton("Compare");
 		btnCompare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				try{
 					control.compareText(dataSet, panel, panel2);
 					control.remakeText(dataSet, panel, panel2);
 					control.Highlighting(dataSet, panel, panel2);  
 					control.setScrollbarSync(true, panel, panel2);
+					panel.textPane.setEditable(true);
+					panel2.textPane.setEditable(true);
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  "hi");
@@ -89,6 +91,7 @@ public class BigView {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					control.copyToRight(dataSet, panel, panel2);
+					
 				}
 				catch (Exception e){
 					JOptionPane.showMessageDialog(null,  e.getMessage());
@@ -144,6 +147,7 @@ public class BigView {
 		});
 		btnAllCopyToRight.setBounds(460, 0, 130, 27);
 		frame.getContentPane().add(btnAllCopyToRight);
+		
 		
 		
 		

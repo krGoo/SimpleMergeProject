@@ -1,23 +1,13 @@
-
-
 import java.awt.Color;
-import java.awt.Cursor;
 import java.io.File;
 import java.io.IOException;
-
 import javax.swing.JScrollBar;
-import javax.swing.JTextArea;
-import javax.swing.event.*;
-import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-import javax.swing.text.Utilities;
 
 
 public class Controller {
-	
-	
     int linenum = 1;
    
    
@@ -33,37 +23,55 @@ public class Controller {
       dataSet.saveString(num);
    }   
    
-   public  void copyToLeft(Model dataSet, ViewView left, ViewView right) {      	      
+   public  void copyToLeft(Model dataSet, ViewView left, ViewView right) {      	
+	   String s[] = right.textPane.getText().split("\n");
+	   
+	   for(int i=0; i<s.length; i++) 
+		   dataSet.setString("right", i, s[i]);
+	   
 	  findBox(dataSet, 0, linenum);
       remakeText(dataSet, left, right);
       Highlighting(dataSet, left, right); 
    } 
    
    public  void copyToRight(Model dataSet, ViewView left, ViewView right) {
+	   String s[] = left.textPane.getText().split("\n");
+	   
+	   for(int i=0; i<s.length; i++) 
+		   dataSet.setString("left", i, s[i]);
+	   
 	  findBox(dataSet, 1, linenum);
       remakeText(dataSet, left, right);
       Highlighting(dataSet, left, right);  
    }
    
    public void AllcopyToLeft(Model dataSet, ViewView left, ViewView right) {
-	      for(int i=0; i<dataSet.getSize("right"); i++) {
-	         dataSet.setString("left", i, dataSet.getString("right",i));
-	         dataSet.setBoolean("left", i, dataSet.getBoolean("right", i));
-	      }
-	      compareText(dataSet, left,right);
-	      remakeText(dataSet, left, right);
-	      Highlighting(dataSet, left, right);
-	   }
+	   String s[] = right.textPane.getText().split("\n");
 	   
-	   public void AllcopyToRight(Model dataSet, ViewView left, ViewView right) {
-	      for(int i=0; i<dataSet.getSize("left"); i++) {
-	         dataSet.setString("right", i, dataSet.getString("left",i));
-	         dataSet.setBoolean("right", i, dataSet.getBoolean("left", i));
-	      }
-	      compareText(dataSet, left,right);
-	      remakeText(dataSet, left, right);
-	      Highlighting(dataSet, left, right);
-	   }
+	   for(int i=0; i<s.length; i++) 
+		   dataSet.setString("right", i, s[i]);
+
+	   for(int i=0; i<dataSet.getSize("right"); i++) 
+		   dataSet.setString("left", i, dataSet.getString("right",i));
+	   
+	   compareText(dataSet, left,right);
+	   remakeText(dataSet, left, right);
+	   Highlighting(dataSet, left, right);	     
+	}
+	   
+   public void AllcopyToRight(Model dataSet, ViewView left, ViewView right) {
+	   String s[] = left.textPane.getText().split("\n");
+	   
+	   for(int i=0; i<s.length; i++) 
+		   dataSet.setString("left", i, s[i]);
+	   
+	   for(int i=0; i<dataSet.getSize("left"); i++) 
+		   dataSet.setString("right", i, dataSet.getString("left",i));
+	   
+	   compareText(dataSet, left,right);
+	   remakeText(dataSet, left, right);
+	   Highlighting(dataSet, left, right);	  
+   }
    
    
    public  void compareText(Model dataSet, ViewView left, ViewView right) {
@@ -171,92 +179,36 @@ public class Controller {
 	      left.textPane.setText(x);
 	      right.textPane.setText(y);
    }
-   public  void Highlighting(Model dataSet, ViewView left, ViewView right, int start, int end) {
-	   			// initialize Highlighter
-		      DefaultHighlighter Lhighlighter =  (DefaultHighlighter)left.textPane.getHighlighter();
-		      DefaultHighlighter Rhighlighter =  (DefaultHighlighter)right.textPane.getHighlighter();
-		      
-		      Highlighter.HighlightPainter paint = new DefaultHighlighter.DefaultHighlightPainter(Color.WHITE);
-		   
-		      // hi
-		      Lhighlighter.setDrawsLayeredHighlights(false);
-		      Rhighlighter.setDrawsLayeredHighlights(false);
-		       
-		      try {         
-		    	  int n=0;
-		    	  int m=0;
-		    	  
-			         for(int k=start; k<end; k++) {			            
-			            if(dataSet.getBoolean("left", k).equals(false)) {
-			               Lhighlighter.addHighlight(start, end, paint);
-			            }            
-			               start += dataSet.getString("left", k).length() + 1;
-			               end = start +  dataSet.getString("left", k).length();
-			               n++;
-			               
-			          }
-			         
-			         for(int k=start; k<end; k++) {
-			            if(dataSet.getBoolean("right", k).equals(false)){
-			               Rhighlighter.addHighlight(start, end, paint);
-			            }
-			               start += dataSet.getString("right", k).length() + 1;   
-			               end = start +  dataSet.getString("right", k).length();
-			               m++;
-			         }         
-			   
-			      } catch (BadLocationException e) {
-			         e.printStackTrace();
-			      }
-   }
-		      
-		      
-		      
-		      
+   
    public  void Highlighting(Model dataSet, ViewView left, ViewView right) {
-	// initialize Highlighter
+	   // initialize Highlighter
 	      DefaultHighlighter Lhighlighter =  (DefaultHighlighter)left.textPane.getHighlighter();
 	      DefaultHighlighter Rhighlighter =  (DefaultHighlighter)right.textPane.getHighlighter();
 	      
 	      Highlighter.HighlightPainter paint = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
 	   
-	// highlighting
-	      int r=0;
-	      int l=0;
-	      
+	      // highlighting
 	      Lhighlighter.setDrawsLayeredHighlights(false);
 	      Rhighlighter.setDrawsLayeredHighlights(false);
 	       
 	      try {         
-	         int n=0;
-	         int m=0;
-	         
-	         for(l=0; l<dataSet.getSize("left"); l++) {
-	            int leftStart=left.textPane.getLineStartOffset(n);
-	            int leftEnd = left.textPane.getLineEndOffset(n);
+	         for(int k=0; k<dataSet.getSize("left"); k++) {
+	            int leftStart = left.textPane.getLineStartOffset(k);
+	            int leftEnd = left.textPane.getLineEndOffset(k);
 	            
-	            if(dataSet.getBoolean("left", l).equals(false)) {
+	            if(dataSet.getBoolean("left", k).equals(false)) {
 	               Lhighlighter.addHighlight(leftStart, leftEnd, paint);
-	            }            
-	               leftStart += dataSet.getString("left", l).length() + 1;
-	               leftEnd = leftStart +  dataSet.getString("left", l).length();
-	               n++;
-	               
+	            }      	               
 	          }
 	         
-	         for(r=0; r<dataSet.getSize("right"); r++) {
+	         for(int k=0; k<dataSet.getSize("right"); k++) {	            
+	            int rightStart= right.textPane.getLineStartOffset(k);
+	            int rightEnd  = right.textPane.getLineEndOffset(k);
 	            
-	            int rightStart= right.textPane.getLineStartOffset(m);
-	            int rightEnd  = right.textPane.getLineEndOffset(m);
-	            
-	            if(dataSet.getBoolean("right", r).equals(false)){
+	            if(dataSet.getBoolean("right", k).equals(false)){
 	               Rhighlighter.addHighlight(rightStart, rightEnd, paint);
 	            }
-	               rightStart += dataSet.getString("right", r).length() + 1;   
-	               rightEnd = rightStart +  dataSet.getString("right", r).length();
-	               m++;
-	         }         
-	   
+	         }         	   
 	      } catch (BadLocationException e) {
 	         e.printStackTrace();
 	      }
