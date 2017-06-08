@@ -51,7 +51,7 @@ public class BigView {
 		frame.setBounds(100, 100, 1026, 987);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);	
-		
+		frame.setTitle("Simple Merge");
 						
 		leftView = new LeftView(control, dataSet);
 		leftView.setSize(452, 896);
