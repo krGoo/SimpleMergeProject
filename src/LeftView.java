@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 
 public class LeftView extends ViewView {
 	
@@ -34,8 +35,7 @@ public class LeftView extends ViewView {
 			    	 control.loadFile(dataSet, file, 0); 
 			    	 control.saveStringToModel(dataSet,0);
 			   	   	 showloadedFile(0, dataSet);	
-			   	   	 control.setScrollbarSync(false, BigView.panel,BigView.panel2);
-			   //	   	BigView.panel2.scrollPane.setViewportView(BigView.panel2.textPane);
+			   	   	 scrollPane.getVerticalScrollBar().setModel(new JScrollBar().getModel());
 			     }
 			     catch (Exception e){
 			    	 JOptionPane.showMessageDialog(null, e.getMessage());

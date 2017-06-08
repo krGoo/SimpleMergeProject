@@ -10,8 +10,8 @@ import java.awt.event.ActionEvent;
 public class BigView {
 	Controller control = new Controller();
 	private JFrame frame;
-	static ViewView panel;
-	static ViewView panel2;	
+	ViewView panel;
+	ViewView panel2;	
 	
 	/**
 	 * Launch the application.
